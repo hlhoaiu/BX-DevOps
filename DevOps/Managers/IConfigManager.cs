@@ -5,6 +5,6 @@ namespace DevOps.Managers
     public interface IConfigManager
     {
         DeployConfig Retrieve();
-        DeployConfig Modify();
+        bool Update();
     }
 }

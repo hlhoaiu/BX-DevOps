@@ -10,6 +10,6 @@ namespace DevOps.Models.Config
     {
         DeployConfig GetDeployConfig();
 
-        DeployConfig UpdateDeployConfig(DeployJSONConfig updatedConfig);
+        bool UpdateDeployConfig(DeployJSONConfig updatedConfig);
     }
 }

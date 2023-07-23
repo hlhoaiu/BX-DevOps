@@ -2,7 +2,6 @@
 using Autofac.Core;
 using DevOps.Managers;
 using DevOps.Modules;
-using DevOps.Services.Test;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,14 +24,11 @@ namespace DevOps.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly ITestService _testService;
         private readonly IConfigManager _configManager;
 
-        public MainWindow(
-            ITestService testService, 
+        public MainWindow( 
             IConfigManager configManager)
         {
-            _testService = testService;
             _configManager = configManager;
 
             InitializeComponent();
@@ -42,11 +38,8 @@ namespace DevOps.Views
 
         private void Test()
         {
-            var testStr = "123";
-            testStr = _testService.TestString();
-            textElement1.Text = testStr;
-
-            _configManager.Retrieve();
+            var aa = _configManager.Retrieve();
+            var bb = _configManager.Update();
         }
 
         private void btnNext_Click(object sender, RoutedEventArgs e)

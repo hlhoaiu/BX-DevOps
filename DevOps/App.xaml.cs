@@ -15,7 +15,6 @@ namespace DevOps
         public App() 
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule<TestModule>();
             builder.RegisterModule<WindowModule>();
             builder.RegisterModule<MainModule>();
             _container = builder.Build();

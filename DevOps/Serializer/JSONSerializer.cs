@@ -15,7 +15,7 @@ namespace DevOps.Serializer.JSON
             return JsonConvert.DeserializeObject<T>(value);
         }
 
-        public string Serializer(object obj)
+        public string Serialize(object obj)
         {
             return JsonConvert.SerializeObject(obj);
         }

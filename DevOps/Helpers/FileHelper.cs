@@ -14,17 +14,19 @@ namespace DevOps.Helpers
             }
 
             var configPath = PathHelper.DeployConfigPath;
-
-            if (!File.Exists(configPath)) 
-            {
-                var customConfigPath = Properties.Settings.Default.CustomDeployConfigPath;
-                var sourceConfigPath = string.IsNullOrWhiteSpace(customConfigPath) ? 
-                                        PathHelper.TemplateDeployConfigPath : 
-                                        customConfigPath;
-                File.Copy(sourceConfigPath, configPath);
-            }
+            var customConfigPath = Properties.Settings.Default.CustomDeployConfigPath;
+            var sourceConfigPath = string.IsNullOrWhiteSpace(customConfigPath) ?
+                                    PathHelper.TemplateDeployConfigPath :
+                                    customConfigPath;
+            File.Copy(sourceConfigPath, configPath, true);
 
             return File.ReadAllText(configPath);
+        }
+
+        public static void WriteDeployConfigToFile(string jsonStr) 
+        {
+            var configPath = PathHelper.DeployConfigPath;
+            File.WriteAllText(configPath, jsonStr);
         }
     }
 }

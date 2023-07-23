@@ -23,9 +23,9 @@ namespace DevOps.Managers
             return _deployConfigModel.GetDeployConfig();
         }
 
-        public DeployConfig Modify()
+        public bool Update()
         {
-            var updatedConfig = new DeployJSONConfig(); // TODO: get updated value from UI
+            var updatedConfig = _deployConfigModel.GetDeployConfig().ToJSONConfig(); // TODO: get updated value from UI
             return _deployConfigModel.UpdateDeployConfig(updatedConfig);
         }
     }
