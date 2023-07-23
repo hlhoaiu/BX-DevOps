@@ -11,6 +11,8 @@ namespace DevOps.Models.Config
     {
         private readonly IRetrieveJSONConfigService _retrieveJSONConfigService;
 
+        private const string MASTER_STR = "master";
+
         private DeployConfig _deployConfig;
 
         public DeployConfigModel(
@@ -26,7 +28,7 @@ namespace DevOps.Models.Config
             var jsonConfig = _retrieveJSONConfigService.Retrieve();
             // TODO: get latest hash from git
             _deployConfig = new DeployConfig(jsonConfig, "latest_hash");
-            _deployConfig.SetTargetBranch("master");
+            _deployConfig.SetTargetBranch(MASTER_STR);
 
             return _deployConfig;
         }
@@ -35,8 +37,8 @@ namespace DevOps.Models.Config
         {
             // TODO: get latest hash from git
             _deployConfig = new DeployConfig(updatedConfig, "latest_hash");
-            _deployConfig.SetTargetBranch("master");
-            // TODO: modify JSON Config Serivce after i implemented it
+            _deployConfig.SetTargetBranch(MASTER_STR);
+            // TODO: update JSON Config Serivce after i implemented it
             return _deployConfig;
         }
     }

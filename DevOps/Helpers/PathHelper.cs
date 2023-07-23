@@ -1,22 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DevOps.Helpers
 {
     public static class PathHelper
     {
-        public static string GetProjectDirectory() 
-        {
-            return Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-        }
-
-        public static string GetConfigPath() 
-        {
-            return Path.Combine(GetProjectDirectory(), "Configs", "Configuration.json");
-        }
+        public static string CurrentDirectory => Directory.GetParent(Environment.CurrentDirectory).FullName;
+        public static string ProjectDirectory => Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+        public static string ConfigDirectory => Path.Combine(CurrentDirectory, "Configs");
+        public static string DeployConfigPath => Path.Combine(ConfigDirectory, Properties.Settings.Default.DeployConfigFileName);
+        public static string TemplateDeployConfigPath => Path.Combine(ProjectDirectory, "Configs", Properties.Settings.Default.DeployConfigFileName);
     }
 }

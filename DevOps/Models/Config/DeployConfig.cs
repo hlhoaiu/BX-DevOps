@@ -62,5 +62,32 @@ namespace DevOps.Models.Config
         {
             TargetBranchName = targetBranch;
         }
+
+        public DeployJSONConfig ToJSONConfig() 
+        {
+            return new DeployJSONConfig 
+            {
+                ReleaseBranchName = ReleaseBranchName,
+                TargetNugetPath = TargetNugetPath,
+                PackageBasePath = PackageBasePath,
+                JobIds = JobIds,
+                RepoPreviousMergeHash = RepoPreviousMergeHash,
+                ProgramName = ProgramName,
+                NugetRepoName = NugetRepoName,
+                ProgramCompiledPath = ProgramCompiledPath,
+                PackageSourceZipFullPath = PackageSourceZipFullPath,
+                PackageSourceNugetZipFullPath = PackageSourceNugetZipFullPath,
+                PackageCompilePath = PackageCompilePath,
+                PackageDiffPath = PackageDiffPath,
+                CustomPackageBackUpPaths = CustomPackageBackUpPaths,
+                PackageBackUpPath = PackageBackUpPath,
+                ProductionProgramBasePath = ProductionProgramBasePath,
+                ProductionProgramPath = ProductionProgramPath,
+                ProductionBackUpBasePath = ProductionBackUpBasePath,
+                ProductionBackUpFullPath = ProductionBackUpFullPath,
+                DiffHTMLName = DiffHTMLName,
+                DeploymentFormName = DeploymentFormName
+            };
+        }
     }
 }

@@ -16,8 +16,7 @@ namespace DevOps.Services.Config
 
         public DeployJSONConfig Retrieve()
         {
-            var configPath = PathHelper.GetConfigPath();
-            var jsonStr = File.ReadAllText(configPath);
+            var jsonStr = FileHelper.GetDeployConfigFileText();
             var jsonConfig = _JSONSerializer.Deserialize<DeployJSONConfig>(jsonStr);
             return jsonConfig;
         }
