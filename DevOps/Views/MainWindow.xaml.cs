@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Core;
+using DevOps.Helpers;
 using DevOps.Managers;
 using DevOps.Modules;
 using System;
@@ -40,6 +41,8 @@ namespace DevOps.Views
         {
             var aa = _configManager.Retrieve();
             var bb = _configManager.Update();
+            var command = @"cd ""C:\Users\HIM HO\source\repos\BX-DevOps""&git status";
+            CommandLineHelpers.Run(command, out var output, out var error);
         }
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
