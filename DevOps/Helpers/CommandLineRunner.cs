@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DevOps.Helpers
 {
-    public class CommandLineHelpers
+    public class CommandLineRunner
     {
         public static void Run(string command, out string output, out string error, string directory = null)
         {

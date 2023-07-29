@@ -5,9 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DevOps"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid Name="mainGrid">
-        <TextBlock Name="textElement1" Text="Element1" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Button Name ="btnNext" Width="200" Height="50" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="Next" FontSize="20" Click="btnNext_Click" />
-    </Grid>
+        Title="MainWindow" 
+        Height="680" 
+        Width="540">
 </Window>

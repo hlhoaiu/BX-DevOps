@@ -12,9 +12,10 @@ namespace DevOps.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<ConfigManager>().As<IConfigManager>().InstancePerLifetimeScope();
+
             builder.RegisterType<DeployConfigModel>().As<IDeployConfigModel>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ConfigManager>().As<IConfigManager>().InstancePerLifetimeScope();
             builder.RegisterType<JSONSerializer>().As<ISerializer>().InstancePerLifetimeScope();
             builder.RegisterType<RetrieveJSONConfigService>().As<IRetrieveJSONConfigService>().InstancePerLifetimeScope();
             builder.RegisterType<UpdateJSONConfigService>().As<IUpdateJSONConfigService>().InstancePerLifetimeScope();

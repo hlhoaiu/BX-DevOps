@@ -1,0 +1,32 @@
+﻿<Page x:Class="DevOps.Views.ConfigPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DevOps.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ConfigPage"
+      Background="White">
+
+    <StackPanel Name ="XMainPanel" Visibility="Visible">
+        <DockPanel Name ="XTopPanel" Height="60" VerticalAlignment="Top">
+            <TextBlock Name="XTitle" Text="Title" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"/>
+        </DockPanel>
+        <DockPanel Name ="XMiddlePanel" Height="500" VerticalAlignment="Center">
+            <Grid Name="XFieldGrid"></Grid>
+        </DockPanel>
+        <DockPanel Name ="XBottomPanel" Height="80" VerticalAlignment="Bottom">
+            <Grid Name="XBtnGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Name ="XClearBtn" Grid.Column="0" Width="150" Height="40" Content="Clear" FontSize="20" Click="XClearBtn_Click" />
+                <Button Name ="XSaveBtn" Grid.Column="1" Width="150" Height="40" Content="Save" FontSize="20" Click="XSaveBtn_Click" />
+                <Button Name ="XStartBtn" Grid.Column="2" Width="150" Height="40" Content="Start" FontSize="20" Click="XStartBtn_Click" />
+            </Grid>
+        </DockPanel>
+    </StackPanel>
+</Page>

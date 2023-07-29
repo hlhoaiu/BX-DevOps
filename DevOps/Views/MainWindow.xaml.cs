@@ -17,6 +17,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static DevOps.Views.ConfigPage;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DevOps.Views
 {
@@ -26,33 +28,46 @@ namespace DevOps.Views
     public partial class MainWindow : Window
     {
         private readonly IConfigManager _configManager;
+        private readonly IComponentContext _componentContext;
 
-        public MainWindow( 
-            IConfigManager configManager)
+        public MainWindow(
+            IConfigManager configManager,
+            IComponentContext componentContext)
         {
             _configManager = configManager;
+            _componentContext = componentContext;
 
             InitializeComponent();
 
+            GoToConfigPage("Init ConfigPage");
+
             Test();
+        }
+
+        private void GoToConfigPage(string msg) 
+        {
+            var page = _componentContext.Resolve<ConfigPage>();
+            this.Content = page;
+            page.onNextPage += new OnNextPage(GoToPage1);
+        }
+
+        private void GoToPage1(string msg) 
+        {
+            //var page = _componentContext.Resolve<ConfigPage>();
+            //this.Content = page;
+            //page.onNextPage += new OnNextPage(GoToPage1);
         }
 
         private void Test()
         {
             var aa = _configManager.Retrieve();
             var bb = _configManager.Update();
-            var command = @"cd ""C:\Users\HIM HO\source\repos\BX-DevOps""&git status";
-            CommandLineHelpers.Run(command, out var output, out var error);
+            TestCommandLine();
         }
 
-        private void btnNext_Click(object sender, RoutedEventArgs e)
-        {
-            var aa = new TextBlock();
-            aa.Text = "hey1";
-            aa.FontSize = 20;
-            aa.Margin = new Thickness(Left);
-            mainGrid.Children.Add(aa);
-            Show();
+        private void TestCommandLine() {
+            var command = @"cd ""C:\Users\HIM HO\source\repos\BX-DevOps""&git status";
+            CommandLineRunner.Run(command, out var output, out var error);
         }
     }
 }
