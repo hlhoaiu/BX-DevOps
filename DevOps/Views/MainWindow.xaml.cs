@@ -38,10 +38,12 @@ namespace DevOps.Views
             _componentContext = componentContext;
 
             InitializeComponent();
+            Init();
+        }
 
+        private void Init() 
+        {
             GoToConfigPage("Init ConfigPage");
-
-            Test();
         }
 
         private void GoToConfigPage(string msg) 
@@ -56,13 +58,6 @@ namespace DevOps.Views
             //var page = _componentContext.Resolve<ConfigPage>();
             //this.Content = page;
             //page.onNextPage += new OnNextPage(GoToPage1);
-        }
-
-        private void Test()
-        {
-            var aa = _configManager.Retrieve();
-            var bb = _configManager.Update();
-            TestCommandLine();
         }
 
         private void TestCommandLine() {

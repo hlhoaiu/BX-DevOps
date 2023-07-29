@@ -5,16 +5,17 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:DevOps.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
       Title="ConfigPage"
       Background="White">
 
     <StackPanel Name ="XMainPanel" Visibility="Visible">
-        <DockPanel Name ="XTopPanel" Height="60" VerticalAlignment="Top">
-            <TextBlock Name="XTitle" Text="Title" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"/>
+        <DockPanel Name ="XTopPanel" Height="40" VerticalAlignment="Top">
+            <TextBlock Name="XTitle" Text="Configuration" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5"/>
         </DockPanel>
         <DockPanel Name ="XMiddlePanel" Height="500" VerticalAlignment="Center">
-            <Grid Name="XFieldGrid"></Grid>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid Name="XFieldGrid"></Grid>
+            </ScrollViewer>
         </DockPanel>
         <DockPanel Name ="XBottomPanel" Height="80" VerticalAlignment="Bottom">
             <Grid Name="XBtnGrid">

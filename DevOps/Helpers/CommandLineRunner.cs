@@ -30,6 +30,5 @@ namespace DevOps.Helpers
             output = process.StandardOutput.ReadToEnd();
             error = process.StandardError.ReadToEnd();
         }
-
     }
 }

@@ -43,7 +43,7 @@ namespace DevOps.Models.Config
             RepoPreviousMergeHash = deployConfig.RepoPreviousMergeHash;
             ProgramName = deployConfig.ProgramName;
             NugetRepoName = deployConfig.NugetRepoName;
-            PackageName = $"{ProgramName}.{string.Join("+", JobIds)}";
+            PackageName = $"{ProgramName}.{string.Join("+", JobIds)}.{repoLatestHash}.{CurrentDateTime.ToString("yyyyMMddhhmm")}";
             ProgramCompiledPath = deployConfig.ProgramCompiledPath;
             PackageSourceZipFullPath = deployConfig.PackageSourceZipFullPath;
             PackageSourceNugetZipFullPath = deployConfig.PackageSourceNugetZipFullPath;

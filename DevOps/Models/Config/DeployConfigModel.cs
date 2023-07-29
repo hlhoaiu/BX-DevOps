@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace DevOps.Models.Config
 {
@@ -15,6 +16,7 @@ namespace DevOps.Models.Config
         private const string MASTER_STR = "master";
 
         private DeployConfig _deployConfig;
+        private DeployJSONConfig _deployJSONConfig;
 
         public DeployConfigModel(
             IRetrieveJSONConfigService retrieveJSONConfigService, 
@@ -28,18 +30,28 @@ namespace DevOps.Models.Config
         {
             if (_deployConfig != null) return _deployConfig;
 
-            var jsonConfig = _retrieveJSONConfigService.Retrieve();
+            var deployJSONConfig = GetDeployJSONConfig();
             // TODO: get latest hash from git
-            _deployConfig = new DeployConfig(jsonConfig, "latest_hash");
+            _deployConfig = new DeployConfig(deployJSONConfig, "latest_hash");
             _deployConfig.SetTargetBranch(MASTER_STR);
 
             return _deployConfig;
+        }
+
+        public DeployJSONConfig GetDeployJSONConfig() 
+        {
+            if (_deployJSONConfig != null) return _deployJSONConfig;
+
+            _deployJSONConfig = _retrieveJSONConfigService.Retrieve();
+
+            return _deployJSONConfig;
         }
 
         public bool UpdateDeployConfig(DeployJSONConfig updatedConfig) 
         {
             var isUpdated = _updateJSONConfigService.Update(updatedConfig);
             if (!isUpdated) return false;
+            _deployJSONConfig = updatedConfig;
             // TODO: get latest hash from git
             _deployConfig = new DeployConfig(updatedConfig, "latest_hash");
             _deployConfig.SetTargetBranch(MASTER_STR);

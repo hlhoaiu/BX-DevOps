@@ -34,29 +34,55 @@ namespace DevOps.Views
         public ConfigPage(
             IConfigManager configManager)
         {
-            InitializeComponent();
-
             _configManager = configManager;
 
-            Test();
-            
+            InitializeComponent();
+            Init();
         }
 
-        private void Test()
+        private void Init()
         {
-            var aa = _configManager.Retrieve();
-            var bb = _configManager.Update();
+            var deployConfig = _configManager.Retrieve();
+            var configDict = ToDict(deployConfig);
+            foreach (var item in configDict)
+            {
+                var fieldType = item.Value?.GetType();
+                if (fieldType != null)
+                {
+                    if (fieldType == typeof(string))
+                    {
+                        var itemStr = item.Value?.ToString() ?? string.Empty;
+                        AddField(item.Key, itemStr, true);
+                    }
+                    else if (fieldType == typeof(DateTime))
+                    {
+                        var itemStr = item.Value == null ? 
+                                            string.Empty : 
+                                            ((DateTime)item.Value).ToString("yyyyMMddhhmm");
+                        AddField(item.Key, itemStr, false);
+                    }
+                    else 
+                    {
+                    }
+                }
+            }
 
         }
-
-        private void XSaveBtn_Click(object sender, RoutedEventArgs e)
+        private IDictionary<string, object?> ToDict(object config)
         {
-            AddField("xxxx", "xxxxxxxx");
+            var configProp = config.GetType().GetProperties();
+            var configDict = configProp.ToDictionary(x => x.Name, y => y.GetValue(config, null));
+            return configDict;
         }
 
         private void XClearBtn_Click(object sender, RoutedEventArgs e)
         {
-            AddField("xxxx", "xxxxxxxx");
+            AddField("xxxx", "xxxxxxxx", true);
+        }
+
+        private void XSaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            AddField("xxxx", "xxxxxxxx", false);
         }
 
         private void XStartBtn_Click(object sender, RoutedEventArgs e)
@@ -64,22 +90,39 @@ namespace DevOps.Views
             onNextPage("From ConfigPage to next");
         }
 
-        private void AddField(string fieldName, string fieldValue)
+        private void tempSelectableTextBox() 
+        {
+            //var fieldText = new TextBox()
+            //{
+            //    Text = $"{fieldName}:",
+            //    FontSize = 16,
+            //    Padding = new Thickness(5,0,5,0),
+            //    VerticalAlignment = VerticalAlignment.Center,
+            //    Background = Brushes.Transparent,
+            //    BorderThickness = new Thickness(0),
+            //    IsReadOnly = true
+            //};
+        }
+
+        private void AddField(string fieldName, string fieldValue, bool isEditable)
         {
             var fieldText = new TextBlock()
             {
-                Text = $"{fieldName}: ",
+                Text = $"{fieldName}:",
                 FontSize = 16,
-                Padding = new Thickness(2),
+                Padding = new Thickness(5, 0, 5, 0),
                 VerticalAlignment = VerticalAlignment.Center
             };
+
             var fieldTextBox = new TextBox()
             {
                 Text = fieldValue,
                 FontSize = 16,
-                Padding = new Thickness(2),
-                Margin = new Thickness(2),
-                VerticalAlignment = VerticalAlignment.Center
+                Padding = new Thickness(5, 0, 5, 0),
+                Margin = new Thickness(2, 2, 2, 2),
+                VerticalAlignment = VerticalAlignment.Center,
+                IsReadOnly = !isEditable,
+                Background = isEditable ? Brushes.White : Brushes.LightGray
             };
 
             var fieldPanel = new DockPanel();
