@@ -1,22 +1,14 @@
 {
   "ReleaseBranchName": "release/20230101",
+  "ProgramGitPath": "C:\\ProgramSource\\GenXls",
   "TargetNugetPath": "C:\\ProgramSource\\GenXls\\packages",
   "PackageBasePath": "C:\\Users\\itdxxx\\Desktop",
   "JobIds": [ "xxx", "xxx" ],
   "RepoPreviousMergeHash": "",
   "ProgramName": "GenXls",
   "NugetRepoName": "AS400.Interfaces",
-  "ProgramCompiledPath": "C:\\ProgramSource\\GenXls\\GenXls\\bin\\Debug",
-  "PackageSourceZipFullPath": "<PackageBasePath>\\<PackageName>\\source\\<ProgramName>.<RepoLatestHash>.zip",
-  "PackageSourceNugetZipFullPath": "<PackageBasePath>\\<PackageName>\\source\\<NugetRepoName>.<NugetPackVersion>.zip",
-  "PackageCompilePath": "<PackageBasePath>\\<PackageName>\\compiled",
-  "PackageDiffPath": "<PackageBasePath>\\<PackageName>\\diff",
+  "NugetPackageVersion": "v1.11.1",
+  "ProgramCompiledPath": "C:\\ProgramSource\\GenXls\\GenXls\\bin\\Release",
   "CustomPackageBackUpPaths": [],
-  "PackageBackUpPath": "<PackageBackUpBasePath>\\<ProgramName>\\<CurrentDate>",
-  "ProductionProgramBasePath": "\\\\hkbcapp17p\\e$\\",
-  "ProductionProgramPath": "<ProductionProgramBasePath>\\Apps\\GENXLS",
-  "ProductionBackUpBasePath": "<ProductionProgramPath>\\Migration\\GenXls",
-  "ProductionBackUpFullPath": "<ProductionBackupBasePath>\\<ProgramName>.<CurrentDateTime>.zip",
-  "DiffHTMLName": "<ProgramName>,<RepoPreviousMergeHash>_<RepoLatestHash>.html",
-  "DeploymentFormName": "<ProgramName>.<RepoLatestHash>.docx"
+  "ProductionProgramBasePath": "\\\\hkbcapp17p\\e$\\"
 }

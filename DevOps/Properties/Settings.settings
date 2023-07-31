@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="DeployConfigFileName" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">DeployConfig.json</Value>
+      <Value Profile="(Default)">DeployConfig_Harvey.json</Value>
     </Setting>
     <Setting Name="CustomDeployConfigPath" Type="System.String" Scope="Application">
       <Value Profile="(Default)" />

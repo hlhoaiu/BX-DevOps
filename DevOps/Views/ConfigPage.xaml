@@ -6,28 +6,40 @@
       xmlns:local="clr-namespace:DevOps.Views"
       mc:Ignorable="d" 
       Title="ConfigPage"
+      d:DesignHeight="680" d:DesignWidth="540"
       Background="White">
 
-    <StackPanel Name ="XMainPanel" Visibility="Visible">
-        <DockPanel Name ="XTopPanel" Height="40" VerticalAlignment="Top">
-            <TextBlock Name="XTitle" Text="Configuration" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5"/>
+    <Grid Name ="XLayoutGrid" Visibility="Visible">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        <DockPanel Name ="XTopPanel" Grid.Row="0" VerticalAlignment="Center">
+            <TextBlock Name="XTitle" Text="Configuration" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,5,0,5"/>
         </DockPanel>
-        <DockPanel Name ="XMiddlePanel" Height="500" VerticalAlignment="Center">
+        <DockPanel Name ="XMiddlePanel" Grid.Row="1" VerticalAlignment="Top">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <Grid Name="XFieldGrid"></Grid>
             </ScrollViewer>
         </DockPanel>
-        <DockPanel Name ="XBottomPanel" Height="80" VerticalAlignment="Bottom">
+        <DockPanel Name ="XStatusPanel" Grid.Row="2" VerticalAlignment="Center">
+            <Border BorderThickness="1" BorderBrush="Gray" Margin="15,2,15,2">
+                <TextBlock Name="XStatus" Text="Status: " FontSize="16" Foreground="Gray" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,0,5"/>
+            </Border>
+        </DockPanel>
+        <DockPanel Name ="XBottomPanel" Grid.Row="3" VerticalAlignment="Center">
             <Grid Name="XBtnGrid">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <Button Name ="XClearBtn" Grid.Column="0" Width="150" Height="40" Content="Clear" FontSize="20" Click="XClearBtn_Click" />
-                <Button Name ="XSaveBtn" Grid.Column="1" Width="150" Height="40" Content="Save" FontSize="20" Click="XSaveBtn_Click" />
-                <Button Name ="XStartBtn" Grid.Column="2" Width="150" Height="40" Content="Start" FontSize="20" Click="XStartBtn_Click" />
+                <Button Name ="XResetBtn" Content="Reset" Click="XResetBtn_Click" Grid.Column="0" Margin="15,0,15,0" Padding="5" FontSize="16"/>
+                <Button Name ="XSaveBtn" Content="Save" Click="XSaveBtn_Click" Grid.Column="1" Margin="15,0,15,0" Padding="5" FontSize="16"/>
+                <Button Name ="XStartBtn" Content="Start" Click="XStartBtn_Click" Grid.Column="2" Margin="15,0,15,0" Padding="5" FontSize="16"/>
             </Grid>
         </DockPanel>
-    </StackPanel>
+    </Grid>
 </Page>

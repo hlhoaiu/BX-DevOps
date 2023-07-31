@@ -27,15 +27,27 @@ namespace DevOps.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly IConfigManager _configManager;
-        private readonly IComponentContext _componentContext;
+        private IDictionary<string, ITemplatePage> _pageMappings;
+
+        private IList<ITemplatePage> _pageSequence;
 
         public MainWindow(
-            IConfigManager configManager,
-            IComponentContext componentContext)
+            IConfigPage configPage, 
+            IBranchPage branchPage, 
+            IPackagePage packagePage, 
+            IFormPage formPage, 
+            IBackupPage backupPage, 
+            IDeploymentPage deploymentPage)
         {
-            _configManager = configManager;
-            _componentContext = componentContext;
+            _pageMappings = new Dictionary<string, ITemplatePage> 
+            {
+                { "ConfigPage", configPage },
+                { "Branch", branchPage },
+                { "PackagePage", packagePage },
+                { "FormPage", formPage },
+                { "BackupPage", backupPage },
+                { "DeploymentPage", deploymentPage }
+            };
 
             InitializeComponent();
             Init();
@@ -43,26 +55,47 @@ namespace DevOps.Views
 
         private void Init() 
         {
-            GoToConfigPage("Init ConfigPage");
+            // TODO: Get this by another config/user selection
+            _pageSequence = _pageMappings.Select(x => x.Value).ToList();
+
+            for (int i = 0; i < _pageSequence.Count; i++)
+            {
+                var currentPage = _pageSequence[i];
+
+                if (i - 1 >= 0) 
+                {
+                    var backPage = _pageSequence[i - 1];
+                    currentPage.OnBackPage += (x) =>
+                    {
+                        this.Content = backPage;
+                        backPage.Init();
+                    };
+                }
+
+                if (i + 1 < _pageSequence.Count)
+                {
+                    var nextPage = _pageSequence[i + 1];
+                    currentPage.OnNextPage += (x) =>
+                    {
+                        this.Content = nextPage;
+                        nextPage.Init();
+                    };
+                }
+                else 
+                {
+                    currentPage.OnNextPage += End;
+                }
+                
+            }
+
+            var firstPage = _pageSequence.First();
+            this.Content = firstPage;
+            firstPage.Init();
         }
 
-        private void GoToConfigPage(string msg) 
+        private void End(string msg) 
         {
-            var page = _componentContext.Resolve<ConfigPage>();
-            this.Content = page;
-            page.onNextPage += new OnNextPage(GoToPage1);
-        }
-
-        private void GoToPage1(string msg) 
-        {
-            //var page = _componentContext.Resolve<ConfigPage>();
-            //this.Content = page;
-            //page.onNextPage += new OnNextPage(GoToPage1);
-        }
-
-        private void TestCommandLine() {
-            var command = @"cd ""C:\Users\HIM HO\source\repos\BX-DevOps""&git status";
-            CommandLineRunner.Run(command, out var output, out var error);
+            System.Windows.Application.Current.Shutdown();
         }
     }
 }

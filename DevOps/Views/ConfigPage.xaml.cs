@@ -20,88 +20,104 @@ using static DevOps.Views.ConfigPage;
 
 namespace DevOps.Views
 {
+    public interface IConfigPage : ITemplatePage 
+    {
+    }
+
     /// <summary>
     /// Interaction logic for ConfigPage.xaml
     /// </summary>
-    public partial class ConfigPage : Page
+    public partial class ConfigPage : Page, IConfigPage
     {
         private readonly IConfigManager _configManager;
 
-        public delegate void OnNextPage(string msg);
-        public event OnNextPage onNextPage;
+        public Action<string> OnBackPage { get; set; }
+        public Action<string> OnNextPage { get; set; }
 
+        private IDictionary<string, TextBox> _cacheTextBoxes = new Dictionary<string, TextBox>();
+        private DeployConfig _tempDeployConfig;
 
         public ConfigPage(
             IConfigManager configManager)
         {
             _configManager = configManager;
+        }
 
+        public void Init()
+        {
             InitializeComponent();
-            Init();
+            AddOrUpdateFields();
         }
 
-        private void Init()
+        private void XResetBtn_Click(object sender, RoutedEventArgs e)
         {
-            var deployConfig = _configManager.Retrieve();
-            var configDict = ToDict(deployConfig);
-            foreach (var item in configDict)
-            {
-                var fieldType = item.Value?.GetType();
-                if (fieldType != null)
-                {
-                    if (fieldType == typeof(string))
-                    {
-                        var itemStr = item.Value?.ToString() ?? string.Empty;
-                        AddField(item.Key, itemStr, true);
-                    }
-                    else if (fieldType == typeof(DateTime))
-                    {
-                        var itemStr = item.Value == null ? 
-                                            string.Empty : 
-                                            ((DateTime)item.Value).ToString("yyyyMMddhhmm");
-                        AddField(item.Key, itemStr, false);
-                    }
-                    else 
-                    {
-                    }
-                }
-            }
-
-        }
-        private IDictionary<string, object?> ToDict(object config)
-        {
-            var configProp = config.GetType().GetProperties();
-            var configDict = configProp.ToDictionary(x => x.Name, y => y.GetValue(config, null));
-            return configDict;
-        }
-
-        private void XClearBtn_Click(object sender, RoutedEventArgs e)
-        {
-            AddField("xxxx", "xxxxxxxx", true);
+            _tempDeployConfig = null;
+            AddOrUpdateFields();
         }
 
         private void XSaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            AddField("xxxx", "xxxxxxxx", false);
+            var updatedJSONConfig = UpdateTempJSONConfig();
+            _configManager.Update(updatedJSONConfig);
         }
 
         private void XStartBtn_Click(object sender, RoutedEventArgs e)
         {
-            onNextPage("From ConfigPage to next");
+            if (OnNextPage != null) 
+            {
+                OnNextPage($"From {this.Name} to next");
+            }
         }
 
-        private void tempSelectableTextBox() 
+        private void OnTextChanged(object sender, TextChangedEventArgs e) 
         {
-            //var fieldText = new TextBox()
-            //{
-            //    Text = $"{fieldName}:",
-            //    FontSize = 16,
-            //    Padding = new Thickness(5,0,5,0),
-            //    VerticalAlignment = VerticalAlignment.Center,
-            //    Background = Brushes.Transparent,
-            //    BorderThickness = new Thickness(0),
-            //    IsReadOnly = true
-            //};
+            var tempJSONConfig = UpdateTempJSONConfig();
+            var latestHash = _configManager.GetDeployConfig().RepoLatestHash;
+            _tempDeployConfig = new DeployConfig(tempJSONConfig, latestHash);
+            AddOrUpdateFields();
+        }
+
+        private void AddOrUpdateFields()
+        {
+            var deployConfig = _tempDeployConfig == null ? _configManager.GetDeployConfig() : _tempDeployConfig;
+            var configDict = FieldHelpers.ToDict(deployConfig);
+            var deployJSONConfig = _configManager.GetDeployJSONConfig();
+            var configJSONDict = FieldHelpers.ToDict(deployJSONConfig);
+            foreach (var item in configDict)
+            {
+                var isEditable = configJSONDict.ContainsKey(item.Key);
+                switch (item.Value)
+                {
+                    case string x:
+                        var itemStr = x.ToString();
+                        AddOrUpdateField(item.Key, itemStr, isEditable);
+                        break;
+                    case DateTime x:
+                        var dateStr = x.ToString("yyyyMMddhhmm");
+                        AddOrUpdateField(item.Key, dateStr, isEditable);
+                        break;
+                    case IEnumerable<string> x:
+                        var combinedStr = string.Join('+', x);
+                        AddOrUpdateField(item.Key, combinedStr, isEditable);
+                        break;
+                    default:
+                        AddOrUpdateField(item.Key, string.Empty, isEditable);
+                        break;
+                }
+            }
+        }
+
+        private void AddOrUpdateField(string fieldName, string fieldValue, bool isEditable) 
+        {
+            if (_cacheTextBoxes.TryGetValue(fieldName, out var textBox))
+            {
+                if (textBox.Text != fieldValue) 
+                {
+                    textBox.Text = fieldValue;
+                }
+                return;
+            }
+            AddField(fieldName, fieldValue, isEditable);
         }
 
         private void AddField(string fieldName, string fieldValue, bool isEditable)
@@ -109,24 +125,28 @@ namespace DevOps.Views
             var fieldText = new TextBlock()
             {
                 Text = $"{fieldName}:",
-                FontSize = 16,
+                FontSize = 14,
                 Padding = new Thickness(5, 0, 5, 0),
                 VerticalAlignment = VerticalAlignment.Center
             };
 
             var fieldTextBox = new TextBox()
             {
+                Name = $"XTextBox_{fieldName}",
                 Text = fieldValue,
-                FontSize = 16,
+                FontSize = 14,
                 Padding = new Thickness(5, 0, 5, 0),
-                Margin = new Thickness(2, 2, 2, 2),
+                Margin = new Thickness(1, 1, 1, 1),
                 VerticalAlignment = VerticalAlignment.Center,
                 IsReadOnly = !isEditable,
                 Background = isEditable ? Brushes.White : Brushes.LightGray
             };
+            fieldTextBox.TextChanged += OnTextChanged;
+
+            _cacheTextBoxes.Add(fieldName, fieldTextBox);
 
             var fieldPanel = new DockPanel();
-            fieldPanel.Height = 30;
+            fieldPanel.Height = 26;
             var rowDef = new RowDefinition();
             rowDef.Height = GridLength.Auto;
             XFieldGrid.RowDefinitions.Add(rowDef);
@@ -135,5 +155,33 @@ namespace DevOps.Views
             fieldPanel.Children.Add(fieldTextBox);
             XFieldGrid.Children.Add(fieldPanel);
         }
+
+        private DeployJSONConfig UpdateTempJSONConfig()
+        {
+            return new DeployJSONConfig()
+            {
+                ReleaseBranchName = _cacheTextBoxes[nameof(DeployConfig.ReleaseBranchName)].Text,
+                TargetNugetPath = _cacheTextBoxes[nameof(DeployConfig.TargetNugetPath)].Text,
+                PackageBasePath = _cacheTextBoxes[nameof(DeployConfig.PackageBasePath)].Text,
+                JobIds = _cacheTextBoxes[nameof(DeployConfig.JobIds)].Text.Split('+'),
+                RepoPreviousMergeHash = _cacheTextBoxes[nameof(DeployConfig.RepoPreviousMergeHash)].Text,
+                ProgramName = _cacheTextBoxes[nameof(DeployConfig.ProgramName)].Text,
+                NugetRepoName = _cacheTextBoxes[nameof(DeployConfig.NugetRepoName)].Text,
+                ProgramCompiledPath = _cacheTextBoxes[nameof(DeployConfig.ProgramCompiledPath)].Text,
+                CustomPackageBackUpPaths = new string[] { _cacheTextBoxes[nameof(DeployConfig.CustomPackageBackUpPaths)].Text },
+                ProductionProgramBasePath = _cacheTextBoxes[nameof(DeployConfig.ProductionProgramBasePath)].Text
+            };
+        }
+
+        //var fieldText = new TextBox()
+        //{
+        //    Text = $"{fieldName}:",
+        //    FontSize = 16,
+        //    Padding = new Thickness(5,0,5,0),
+        //    VerticalAlignment = VerticalAlignment.Center,
+        //    Background = Brushes.Transparent,
+        //    BorderThickness = new Thickness(0),
+        //    IsReadOnly = true
+        //};
     }
 }

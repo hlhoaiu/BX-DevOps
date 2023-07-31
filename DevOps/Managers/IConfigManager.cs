@@ -4,7 +4,8 @@ namespace DevOps.Managers
 {
     public interface IConfigManager
     {
-        DeployConfig Retrieve();
-        bool Update();
+        DeployConfig GetDeployConfig();
+        DeployJSONConfig GetDeployJSONConfig();
+        bool Update(DeployJSONConfig deployJSONConfig);
     }
 }

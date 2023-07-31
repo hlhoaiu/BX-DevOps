@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Media;
 
 namespace DevOps.Models.Config
 {
@@ -9,7 +11,7 @@ namespace DevOps.Models.Config
     {
         public DateTime CurrentDateTime { get; }
         public string ReleaseBranchName { get; } //release/yyyyMMdd
-        public string TargetBranchName { get; private set; } //master or production
+        public string ProgramGitPath { get; }
         public string TargetNugetPath { get; } // C:\ProgramSource\GenXls\packages
         public string PackageBasePath { get; } // C:\Users\itdxxx\Desktop
         public IEnumerable<string> JobIds { get; } = Enumerable.Empty<string>(); // xxxx+xxxx
@@ -17,6 +19,7 @@ namespace DevOps.Models.Config
         public string RepoPreviousMergeHash { get; }
         public string ProgramName { get; } // GenXls
         public string NugetRepoName { get; } //AS400.Interfaces
+        public string NugetPackageVersion { get; } //v1.11.1
         public string PackageName { get; }// <ProgramName>.<CombinedJobIds>.<RepoLatestHash>.<CurrentDateTime>
         public string ProgramCompiledPath { get; } // C:\ProgramSource\GenXls\GenXls\bin\Debug
         public string PackageSourceZipFullPath { get; } // <PackageBasePath>\<PackageName>\source\<ProgramName>.<RepoLatestHash>.zip
@@ -24,8 +27,8 @@ namespace DevOps.Models.Config
         public string PackageCompilePath { get; } // <PackageBasePath>\<PackageName>\compiled
         public string PackageDiffPath { get; } // <PackageBasePath>\<PackageName>\diff
         public IEnumerable<string> CustomPackageBackUpPaths { get; } = Enumerable.Empty<string>();
-        public string PackageBackUpPath { get; } // <PackageBackUpBasePath>\<ProgramName>\<CurrentDate>
         public string ProductionProgramBasePath { get; } // \\hkbcapp17p\e$\
+        public string PackageBackUpPath { get; } // <ProductionProgramPath>\Release\<ProgramName>\<CurrentDate>
         public string ProductionProgramPath { get; } // <ProductionProgramBasePath>\Apps\GENXLS
         public string ProductionBackUpBasePath { get; } // <ProductionProgramPath>\Migration\GenXls
         public string ProductionBackUpFullPath { get; } // <ProductionBackupBasePath>\<ProgramName>.<CurrentDateTime>.zip
@@ -36,6 +39,7 @@ namespace DevOps.Models.Config
         {
             CurrentDateTime = DateTime.Now;
             ReleaseBranchName = deployConfig.ReleaseBranchName;
+            ProgramGitPath = deployConfig.ProgramGitPath;
             TargetNugetPath = deployConfig.TargetNugetPath;
             PackageBasePath = deployConfig.PackageBasePath;
             JobIds = deployConfig.JobIds;
@@ -43,50 +47,40 @@ namespace DevOps.Models.Config
             RepoPreviousMergeHash = deployConfig.RepoPreviousMergeHash;
             ProgramName = deployConfig.ProgramName;
             NugetRepoName = deployConfig.NugetRepoName;
+            NugetPackageVersion = deployConfig.NugetPackageVersion;
             PackageName = $"{ProgramName}.{string.Join("+", JobIds)}.{repoLatestHash}.{CurrentDateTime.ToString("yyyyMMddhhmm")}";
             ProgramCompiledPath = deployConfig.ProgramCompiledPath;
-            PackageSourceZipFullPath = deployConfig.PackageSourceZipFullPath;
-            PackageSourceNugetZipFullPath = deployConfig.PackageSourceNugetZipFullPath;
-            PackageCompilePath = deployConfig.PackageCompilePath;
-            PackageDiffPath = deployConfig.PackageDiffPath;
+            PackageSourceZipFullPath = Path.Combine(PackageBasePath, PackageName, "source", $"{ProgramName}.{RepoLatestHash}.zip");
+            PackageSourceNugetZipFullPath = Path.Combine(PackageBasePath, PackageName, "source", $"{NugetRepoName}.{NugetPackageVersion}.zip");
+            PackageCompilePath = Path.Combine(PackageBasePath, PackageName, "compiled");
+            PackageDiffPath = $@"{PackageBasePath}\{PackageName}\diff";
+            PackageDiffPath = Path.Combine(PackageBasePath, PackageName, "diff");
             CustomPackageBackUpPaths = deployConfig.CustomPackageBackUpPaths;
             ProductionProgramBasePath = deployConfig.ProductionProgramBasePath;
-            ProductionProgramPath = deployConfig.ProductionProgramPath;
-            ProductionBackUpBasePath = deployConfig.ProductionBackUpBasePath;
-            ProductionBackUpFullPath = deployConfig.ProductionBackUpFullPath;
-            DiffHTMLName = deployConfig.DiffHTMLName;
-            DeploymentFormName = deployConfig.DeploymentFormName;
-        }
-
-        public void SetTargetBranch(string targetBranch) 
-        {
-            TargetBranchName = targetBranch;
+            PackageBackUpPath = Path.Combine(ProductionProgramBasePath, "Release", "GenXls", CurrentDateTime.ToString("yyyyMMdd"));
+            ProductionProgramPath = Path.Combine(ProductionProgramBasePath, "Apps", "GENXLS");
+            ProductionBackUpBasePath = Path.Combine(ProductionProgramBasePath, "Migration", "GenXls");
+            ProductionBackUpFullPath = Path.Combine(ProductionProgramBasePath, "Release", ProgramName, CurrentDateTime.ToString("yyyyMMddhhmm"));
+            DiffHTMLName = $"{ProgramName},{RepoPreviousMergeHash}_{RepoLatestHash}";
+            DeploymentFormName = $"{ProgramName}.{RepoLatestHash}.docx";
         }
 
         public DeployJSONConfig ToJSONConfig() 
         {
-            return new DeployJSONConfig 
+            return new DeployJSONConfig
             {
                 ReleaseBranchName = ReleaseBranchName,
+                ProgramGitPath = ProgramGitPath,
                 TargetNugetPath = TargetNugetPath,
                 PackageBasePath = PackageBasePath,
                 JobIds = JobIds,
                 RepoPreviousMergeHash = RepoPreviousMergeHash,
                 ProgramName = ProgramName,
                 NugetRepoName = NugetRepoName,
+                NugetPackageVersion = NugetPackageVersion,
                 ProgramCompiledPath = ProgramCompiledPath,
-                PackageSourceZipFullPath = PackageSourceZipFullPath,
-                PackageSourceNugetZipFullPath = PackageSourceNugetZipFullPath,
-                PackageCompilePath = PackageCompilePath,
-                PackageDiffPath = PackageDiffPath,
                 CustomPackageBackUpPaths = CustomPackageBackUpPaths,
-                PackageBackUpPath = PackageBackUpPath,
-                ProductionProgramBasePath = ProductionProgramBasePath,
-                ProductionProgramPath = ProductionProgramPath,
-                ProductionBackUpBasePath = ProductionBackUpBasePath,
-                ProductionBackUpFullPath = ProductionBackUpFullPath,
-                DiffHTMLName = DiffHTMLName,
-                DeploymentFormName = DeploymentFormName
+                ProductionProgramBasePath = ProductionProgramBasePath
             };
         }
     }

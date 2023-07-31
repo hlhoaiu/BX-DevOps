@@ -18,15 +18,19 @@ namespace DevOps.Managers
             _deployConfigModel = deployConfigModel;
         }
 
-        public DeployConfig Retrieve()
+        public DeployConfig GetDeployConfig()
         {
             return _deployConfigModel.GetDeployConfig();
         }
 
-        public bool Update()
+        public DeployJSONConfig GetDeployJSONConfig()
         {
-            var updatedConfig = _deployConfigModel.GetDeployConfig().ToJSONConfig(); // TODO: get updated value from UI
-            return _deployConfigModel.UpdateDeployConfig(updatedConfig);
+            return _deployConfigModel.GetDeployJSONConfig();
+        }
+
+        public bool Update(DeployJSONConfig deployJSONConfig)
+        {
+            return _deployConfigModel.UpdateDeployConfig(deployJSONConfig);
         }
     }
 }

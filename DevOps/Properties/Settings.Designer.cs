@@ -25,7 +25,7 @@ namespace DevOps.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("DeployConfig.json")]
+        [global::System.Configuration.DefaultSettingValueAttribute("DeployConfig_Harvey.json")]
         public string DeployConfigFileName {
             get {
                 return ((string)(this["DeployConfigFileName"]));

@@ -33,7 +33,6 @@ namespace DevOps.Models.Config
             var deployJSONConfig = GetDeployJSONConfig();
             // TODO: get latest hash from git
             _deployConfig = new DeployConfig(deployJSONConfig, "latest_hash");
-            _deployConfig.SetTargetBranch(MASTER_STR);
 
             return _deployConfig;
         }
@@ -54,7 +53,6 @@ namespace DevOps.Models.Config
             _deployJSONConfig = updatedConfig;
             // TODO: get latest hash from git
             _deployConfig = new DeployConfig(updatedConfig, "latest_hash");
-            _deployConfig.SetTargetBranch(MASTER_STR);
             // TODO: update JSON Config Serivce after i implemented it
             return true;
         }

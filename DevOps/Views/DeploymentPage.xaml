@@ -1,0 +1,64 @@
+﻿<Page x:Class="DevOps.Views.DeploymentPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DevOps.Views"
+      mc:Ignorable="d" 
+      Title="DeploymentPage"
+      d:DesignHeight="680" d:DesignWidth="540"
+      Background="White">
+
+    <Grid Name ="XLayoutGrid" Visibility="Visible">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        <DockPanel Name ="XTopPanel" Grid.Row="0" VerticalAlignment="Center">
+            <TextBlock Name="XTitle" Text="(ProgramName) Deployment" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,5,0,5"/>
+        </DockPanel>
+        <DockPanel Name ="XMiddlePanel" Grid.Row="1" VerticalAlignment="Top">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid Name="XFieldGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Row="0" Height="26">
+                        <TextBlock Text="Source Branch (From):" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
+                        <TextBox Name="XSourceBranch" Text="xxx" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" VerticalAlignment="Center"></TextBox>
+                    </DockPanel>
+                    <DockPanel Grid.Row="1" Height="26">
+                        <TextBlock Text="Target Branch (to):" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
+                        <TextBox Name="XTargetBranch" Text="123" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" VerticalAlignment="Center"></TextBox>
+                    </DockPanel>
+                </Grid>
+            </ScrollViewer>
+        </DockPanel>
+        <StackPanel Name ="XPanel" Grid.Row="2" VerticalAlignment="Top">
+            <TextBox Name="XLog" Text="Log Init..." Height="270" FontSize="14" BorderThickness="1" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="15">
+
+            </TextBox>
+        </StackPanel>
+        <DockPanel Name ="XStatusPanel" Grid.Row="3" VerticalAlignment="Center">
+            <Border BorderThickness="1" BorderBrush="Gray" Margin="15,2,15,2">
+                <TextBlock Name="XStatus" Text="Status: " FontSize="16" Foreground="Gray" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,0,5"/>
+            </Border>
+        </DockPanel>
+        <DockPanel Name ="XBottomPanel" Grid.Row="4" VerticalAlignment="Center">
+            <Grid Name="XBtnGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Button Name ="XBackBtn" Content="Back" Click="XBackBtn_Click" Grid.Column="0" Margin="15,0,15,0" Padding="5" FontSize="16"/>
+                <Button Name ="XExecuteBtn" Content="Execute Deploy" Click="XExecuteBtn_Click" Grid.Column="1" Margin="15,0,15,0" Padding="5" FontSize="16"/>
+                <Button Name ="XNextBtn" Content="Next" Click="XNextBtn_Click" Grid.Column="2" Margin="15,0,15,0" Padding="5" FontSize="16"/>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Page>
