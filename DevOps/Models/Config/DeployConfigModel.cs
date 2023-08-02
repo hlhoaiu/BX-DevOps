@@ -1,4 +1,5 @@
 ﻿using DevOps.Services.Config;
+using DevOps.Services.Git;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,18 +13,19 @@ namespace DevOps.Models.Config
     {
         private readonly IRetrieveJSONConfigService _retrieveJSONConfigService;
         private readonly IUpdateJSONConfigService _updateJSONConfigService;
-
-        private const string MASTER_STR = "master";
+        private readonly IGitHashService _gitHashService;
 
         private DeployConfig _deployConfig;
         private DeployJSONConfig _deployJSONConfig;
 
         public DeployConfigModel(
-            IRetrieveJSONConfigService retrieveJSONConfigService, 
-            IUpdateJSONConfigService updateJSONConfigService)
+            IRetrieveJSONConfigService retrieveJSONConfigService,
+            IUpdateJSONConfigService updateJSONConfigService,
+            IGitHashService gitHashService)
         {
             _retrieveJSONConfigService = retrieveJSONConfigService;
             _updateJSONConfigService = updateJSONConfigService;
+            _gitHashService = gitHashService;
         }
 
         public DeployConfig GetDeployConfig()
@@ -31,8 +33,8 @@ namespace DevOps.Models.Config
             if (_deployConfig != null) return _deployConfig;
 
             var deployJSONConfig = GetDeployJSONConfig();
-            // TODO: get latest hash from git
-            _deployConfig = new DeployConfig(deployJSONConfig, "latest_hash");
+            var latestHash = _gitHashService.GetHash(CommonConst.Production, deployJSONConfig.ProgramGitPath);
+            _deployConfig = new DeployConfig(deployJSONConfig, latestHash);
 
             return _deployConfig;
         }
@@ -51,9 +53,8 @@ namespace DevOps.Models.Config
             var isUpdated = _updateJSONConfigService.Update(updatedConfig);
             if (!isUpdated) return false;
             _deployJSONConfig = updatedConfig;
-            // TODO: get latest hash from git
-            _deployConfig = new DeployConfig(updatedConfig, "latest_hash");
-            // TODO: update JSON Config Serivce after i implemented it
+            var latestHash = _gitHashService.GetHash(CommonConst.Production, _deployJSONConfig.ProgramGitPath);
+            _deployConfig = new DeployConfig(updatedConfig, latestHash);
             return true;
         }
     }

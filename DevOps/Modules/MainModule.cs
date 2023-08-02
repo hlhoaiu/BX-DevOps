@@ -5,6 +5,8 @@ using DevOps.Models.Config;
 using DevOps.Serializer;
 using DevOps.Serializer.JSON;
 using DevOps.Services.Config;
+using DevOps.Services.Git;
+using DevOps.Services.Package;
 
 namespace DevOps.Modules
 {
@@ -20,6 +22,14 @@ namespace DevOps.Modules
             builder.RegisterType<RetrieveJSONConfigService>().As<IRetrieveJSONConfigService>().InstancePerLifetimeScope();
             builder.RegisterType<UpdateJSONConfigService>().As<IUpdateJSONConfigService>().InstancePerLifetimeScope();
 
+            builder.RegisterType<GitMergeService>().As<IGitMergeService>().InstancePerLifetimeScope();
+            builder.RegisterType<GitHashService>().As<IGitHashService>().InstancePerLifetimeScope();
+            builder.RegisterType<GitManager>().As<IGitManager>().InstancePerLifetimeScope();
+
+            builder.RegisterType<DeploymentPackageManager>().As<IDeploymentPackageManager>().InstancePerLifetimeScope();
+            builder.RegisterType<GeneratePackageService>().As<IGeneratePackageService>().InstancePerLifetimeScope();
+            builder.RegisterType<MovePackageService>().As<IMovePackageService>().InstancePerLifetimeScope();
+            
             builder.RegisterType<MLogger>().As<ILogger>().InstancePerLifetimeScope();
         }
     }

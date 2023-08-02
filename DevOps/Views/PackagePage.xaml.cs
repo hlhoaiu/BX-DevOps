@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DevOps.Logger;
+using DevOps.Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,9 +25,15 @@ namespace DevOps.Views
     /// </summary>
     public partial class PackagePage : Page, IPackagePage
     {
-        public PackagePage()
+        private readonly ILogger _logger;
+        private readonly IDeploymentPackageManager _deploymentPackageManager;
+
+        public PackagePage(
+            ILogger logger, 
+            IDeploymentPackageManager deploymentPackageManager)
         {
-            InitializeComponent();
+            _logger = logger;
+            _deploymentPackageManager = deploymentPackageManager;
         }
 
         public Action<string> OnBackPage { get; set; }
@@ -33,7 +41,21 @@ namespace DevOps.Views
 
         public void Init()
         {
+            InitializeComponent();
+            RegisterLogUpdatedAction();
+        }
 
+        private void RegisterLogUpdatedAction()
+        {
+            _logger.OnErrorUpdated -= OnLogUpdated;
+            _logger.OnLogUpdated -= OnLogUpdated;
+            _logger.OnErrorUpdated += OnLogUpdated;
+            _logger.OnLogUpdated += OnLogUpdated;
+        }
+
+        private void OnLogUpdated(string msg)
+        {
+            XLog.Text += "\n" + msg;
         }
 
         private void XBackBtn_Click(object sender, RoutedEventArgs e)
@@ -46,7 +68,7 @@ namespace DevOps.Views
 
         private void XExecuteBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            _deploymentPackageManager.Release();
         }
 
         private void XNextBtn_Click(object sender, RoutedEventArgs e)

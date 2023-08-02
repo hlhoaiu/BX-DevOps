@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Core;
 using DevOps.Helpers;
+using DevOps.Logger;
 using DevOps.Managers;
 using DevOps.Modules;
 using System;
@@ -27,19 +28,21 @@ namespace DevOps.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        private IDictionary<string, ITemplatePage> _pageMappings;
+        private readonly IDictionary<string, ITemplatePage> _pageMappings;
+        private readonly ILogger _logger;
 
         private IList<ITemplatePage> _pageSequence;
 
         public MainWindow(
-            IConfigPage configPage, 
-            IBranchPage branchPage, 
-            IPackagePage packagePage, 
-            IFormPage formPage, 
-            IBackupPage backupPage, 
-            IDeploymentPage deploymentPage)
+            IConfigPage configPage,
+            IBranchPage branchPage,
+            IPackagePage packagePage,
+            IFormPage formPage,
+            IBackupPage backupPage,
+            IDeploymentPage deploymentPage,
+            ILogger logger)
         {
-            _pageMappings = new Dictionary<string, ITemplatePage> 
+            _pageMappings = new Dictionary<string, ITemplatePage>
             {
                 { "ConfigPage", configPage },
                 { "Branch", branchPage },
@@ -48,6 +51,7 @@ namespace DevOps.Views
                 { "BackupPage", backupPage },
                 { "DeploymentPage", deploymentPage }
             };
+            _logger = logger;
 
             InitializeComponent();
             Init();
@@ -67,6 +71,7 @@ namespace DevOps.Views
                     var backPage = _pageSequence[i - 1];
                     currentPage.OnBackPage += (x) =>
                     {
+                        _logger.Log(x);
                         this.Content = backPage;
                         backPage.Init();
                     };
@@ -77,6 +82,7 @@ namespace DevOps.Views
                     var nextPage = _pageSequence[i + 1];
                     currentPage.OnNextPage += (x) =>
                     {
+                        _logger.Log(x);
                         this.Content = nextPage;
                         nextPage.Init();
                     };
@@ -85,7 +91,6 @@ namespace DevOps.Views
                 {
                     currentPage.OnNextPage += End;
                 }
-                
             }
 
             var firstPage = _pageSequence.First();

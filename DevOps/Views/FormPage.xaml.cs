@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevOps.Logger;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,9 +24,12 @@ namespace DevOps.Views
     /// </summary>
     public partial class FormPage : Page, IFormPage
     {
-        public FormPage()
+        private readonly ILogger _logger;
+
+        public FormPage(
+            ILogger logger)
         {
-            InitializeComponent();
+            _logger = logger;
         }
 
         public Action<string> OnBackPage { get; set; }
@@ -33,7 +37,21 @@ namespace DevOps.Views
 
         public void Init()
         {
+            InitializeComponent();
+            RegisterLogUpdatedAction();
+        }
 
+        private void RegisterLogUpdatedAction()
+        {
+            _logger.OnErrorUpdated -= OnLogUpdated;
+            _logger.OnLogUpdated -= OnLogUpdated;
+            _logger.OnErrorUpdated += OnLogUpdated;
+            _logger.OnLogUpdated += OnLogUpdated;
+        }
+
+        private void OnLogUpdated(string msg)
+        {
+            XLog.Text += "\n" + msg;
         }
 
         private void XBackBtn_Click(object sender, RoutedEventArgs e)

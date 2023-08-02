@@ -48,7 +48,7 @@ namespace DevOps.Models.Config
             ProgramName = deployConfig.ProgramName;
             NugetRepoName = deployConfig.NugetRepoName;
             NugetPackageVersion = deployConfig.NugetPackageVersion;
-            PackageName = $"{ProgramName}.{string.Join("+", JobIds)}.{repoLatestHash}.{CurrentDateTime.ToString("yyyyMMddhhmm")}";
+            PackageName = $"{ProgramName}.{string.Join("+", JobIds)}.{repoLatestHash}.{CurrentDateTime.ToString(CommonConst.DateTimeFormat)}";
             ProgramCompiledPath = deployConfig.ProgramCompiledPath;
             PackageSourceZipFullPath = Path.Combine(PackageBasePath, PackageName, "source", $"{ProgramName}.{RepoLatestHash}.zip");
             PackageSourceNugetZipFullPath = Path.Combine(PackageBasePath, PackageName, "source", $"{NugetRepoName}.{NugetPackageVersion}.zip");
@@ -57,10 +57,10 @@ namespace DevOps.Models.Config
             PackageDiffPath = Path.Combine(PackageBasePath, PackageName, "diff");
             CustomPackageBackUpPaths = deployConfig.CustomPackageBackUpPaths;
             ProductionProgramBasePath = deployConfig.ProductionProgramBasePath;
-            PackageBackUpPath = Path.Combine(ProductionProgramBasePath, "Release", "GenXls", CurrentDateTime.ToString("yyyyMMdd"));
+            PackageBackUpPath = Path.Combine(ProductionProgramBasePath, "Release", "GenXls", CurrentDateTime.ToString(CommonConst.DateFormat));
             ProductionProgramPath = Path.Combine(ProductionProgramBasePath, "Apps", "GENXLS");
             ProductionBackUpBasePath = Path.Combine(ProductionProgramBasePath, "Migration", "GenXls");
-            ProductionBackUpFullPath = Path.Combine(ProductionProgramBasePath, "Release", ProgramName, CurrentDateTime.ToString("yyyyMMddhhmm"));
+            ProductionBackUpFullPath = Path.Combine(ProductionProgramBasePath, "Release", ProgramName, CurrentDateTime.ToString(CommonConst.DateTimeFormat));
             DiffHTMLName = $"{ProgramName},{RepoPreviousMergeHash}_{RepoLatestHash}";
             DeploymentFormName = $"{ProgramName}.{RepoLatestHash}.docx";
         }

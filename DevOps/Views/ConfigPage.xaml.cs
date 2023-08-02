@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using DevOps.Helpers;
 using DevOps.Managers;
+using DevOps.Models;
 using DevOps.Models.Config;
 using System;
 using System.Collections.Generic;
@@ -93,7 +94,7 @@ namespace DevOps.Views
                         AddOrUpdateField(item.Key, itemStr, isEditable);
                         break;
                     case DateTime x:
-                        var dateStr = x.ToString("yyyyMMddhhmm");
+                        var dateStr = x.ToString(CommonConst.DateTimeFormat);
                         AddOrUpdateField(item.Key, dateStr, isEditable);
                         break;
                     case IEnumerable<string> x:
