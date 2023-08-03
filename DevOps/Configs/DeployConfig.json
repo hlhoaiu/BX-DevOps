@@ -1,6 +1,7 @@
 {
   "ReleaseBranchName": "release/20230101",
   "ProgramGitPath": "C:\\ProgramSource\\GenXls",
+  "NugetGitPath": "C:\\ProgramSource\\AS400.Interfaces",
   "TargetNugetPath": "C:\\ProgramSource\\GenXls\\packages",
   "PackageBasePath": "C:\\Users\\itdxxx\\Desktop",
   "JobIds": [ "xxx", "xxx" ],

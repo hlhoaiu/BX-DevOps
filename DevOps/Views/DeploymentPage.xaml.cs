@@ -1,4 +1,5 @@
 ﻿using DevOps.Logger;
+using DevOps.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,11 +26,14 @@ namespace DevOps.Views
     public partial class DeploymentPage : Page, IDeploymentPage
     {
         private readonly ILogger _logger;
+        private readonly IDeploymentPackageManager _deploymentPackageManager;
 
         public DeploymentPage(
-            ILogger logger)
+            ILogger logger, 
+            IDeploymentPackageManager deploymentPackageManager)
         {
             _logger = logger;
+            _deploymentPackageManager = deploymentPackageManager;
         }
 
         public Action<string> OnBackPage { get; set; }
@@ -64,7 +68,9 @@ namespace DevOps.Views
 
         private void XExecuteBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            XStatus.Text = "Release Started";
+            _deploymentPackageManager.Release();
+            XStatus.Text = "Release Success";
         }
 
         private void XNextBtn_Click(object sender, RoutedEventArgs e)

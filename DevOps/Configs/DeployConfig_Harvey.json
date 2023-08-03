@@ -1,6 +1,7 @@
 {
   "ReleaseBranchName": "release/20230101",
   "ProgramGitPath": "C:\\Users\\HIM HO\\source\\repos\\BX-DevOps",
+  "NugetGitPath": "C:\\Users\\HIM HO\\source\\repos\\BX-DevOps",
   "TargetNugetPath": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\TargetPackagePath",
   "PackageBasePath": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace",
   "JobIds": [ "xxx", "yyy" ],

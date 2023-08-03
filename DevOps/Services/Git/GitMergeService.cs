@@ -1,5 +1,6 @@
 ﻿using DevOps.Helpers;
 using DevOps.Logger;
+using DevOps.Models.Config;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace DevOps.Services.Git
     {
         private readonly ILogger _logger;
 
-        public GitMergeService(ILogger logger)
+        public GitMergeService(
+            ILogger logger)
         {
             _logger = logger;
         }

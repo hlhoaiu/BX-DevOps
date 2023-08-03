@@ -7,6 +7,7 @@ namespace DevOps.Models.Config
     {
         public string ReleaseBranchName { get; set; } //release/yyyyMMdd
         public string ProgramGitPath { get; set; }
+        public string NugetGitPath { get; set; }
         public string TargetNugetPath { get; set; } // C:\ProgramSource\GenXls\packages
         public string PackageBasePath { get; set; } // C:\Users\itdxxx\Desktop
         public IEnumerable<string> JobIds { get; set; } // xxxx+xxxx

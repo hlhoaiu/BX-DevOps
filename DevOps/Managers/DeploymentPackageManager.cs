@@ -23,7 +23,7 @@ namespace DevOps.Managers
         public void Release()
         {
             _generatePackageService.Generate();
-            //_movePackageService.Move();
+            _movePackageService.Move();
         }
     }
 }

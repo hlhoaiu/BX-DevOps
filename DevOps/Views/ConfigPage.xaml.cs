@@ -48,18 +48,23 @@ namespace DevOps.Views
         {
             InitializeComponent();
             AddOrUpdateFields();
+            XStatus.Text = "Init Success";
         }
 
         private void XResetBtn_Click(object sender, RoutedEventArgs e)
         {
+            XStatus.Text = "Reset Started";
             _tempDeployConfig = null;
             AddOrUpdateFields();
+            XStatus.Text = "Reset Success";
         }
 
         private void XSaveBtn_Click(object sender, RoutedEventArgs e)
         {
+            XStatus.Text = "Save Started";
             var updatedJSONConfig = UpdateTempJSONConfig();
             _configManager.Update(updatedJSONConfig);
+            XStatus.Text = "Save Success";
         }
 
         private void XStartBtn_Click(object sender, RoutedEventArgs e)

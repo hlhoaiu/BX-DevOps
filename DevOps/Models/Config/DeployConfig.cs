@@ -12,6 +12,7 @@ namespace DevOps.Models.Config
         public DateTime CurrentDateTime { get; }
         public string ReleaseBranchName { get; } //release/yyyyMMdd
         public string ProgramGitPath { get; }
+        public string NugetGitPath { get; }
         public string TargetNugetPath { get; } // C:\ProgramSource\GenXls\packages
         public string PackageBasePath { get; } // C:\Users\itdxxx\Desktop
         public IEnumerable<string> JobIds { get; } = Enumerable.Empty<string>(); // xxxx+xxxx
@@ -40,6 +41,7 @@ namespace DevOps.Models.Config
             CurrentDateTime = DateTime.Now;
             ReleaseBranchName = deployConfig.ReleaseBranchName;
             ProgramGitPath = deployConfig.ProgramGitPath;
+            NugetGitPath = deployConfig.NugetGitPath;
             TargetNugetPath = deployConfig.TargetNugetPath;
             PackageBasePath = deployConfig.PackageBasePath;
             JobIds = deployConfig.JobIds;
@@ -71,6 +73,7 @@ namespace DevOps.Models.Config
             {
                 ReleaseBranchName = ReleaseBranchName,
                 ProgramGitPath = ProgramGitPath,
+                NugetGitPath = NugetGitPath,
                 TargetNugetPath = TargetNugetPath,
                 PackageBasePath = PackageBasePath,
                 JobIds = JobIds,
