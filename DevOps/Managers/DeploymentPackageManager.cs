@@ -33,7 +33,7 @@ namespace DevOps.Managers
             {
                 _generatePackageService.Generate();
             }
-            var backupDirectories = new string[] { config.PackageBackUpPath }.Concat(config.CustomPackageBackUpPaths);
+            var backupDirectories = new string[] { config.PackageReleasePath }.Concat(config.CustomPackageBackUpPaths);
             _copyPackageService.Copy(packagePath, backupDirectories);
         }
     }

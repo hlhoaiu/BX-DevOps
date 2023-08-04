@@ -29,7 +29,7 @@ namespace DevOps.Models.Config
         public string PackageDiffPath { get; } // <PackageBasePath>\<PackageName>\diff
         public IEnumerable<string> CustomPackageBackUpPaths { get; } = Enumerable.Empty<string>();
         public string ProductionProgramBasePath { get; } // \\hkbcapp17p\e$\
-        public string PackageBackUpPath { get; } // <ProductionProgramPath>\Release\<ProgramName>\<CurrentDate>
+        public string PackageReleasePath { get; } // <ProductionProgramPath>\Release\<ProgramName>\<CurrentDate>
         public string ProductionProgramPath { get; } // <ProductionProgramBasePath>\Apps\GENXLS
         public string ProductionBackUpBasePath { get; } // <ProductionProgramPath>\Migration\GenXls
         public string ProductionBackUpFullPath { get; } // <ProductionBackupBasePath>\<ProgramName>.<CurrentDateTime>.zip
@@ -59,10 +59,10 @@ namespace DevOps.Models.Config
             PackageDiffPath = Path.Combine(PackageBasePath, PackageName, "diff");
             CustomPackageBackUpPaths = deployConfig.CustomPackageBackUpPaths;
             ProductionProgramBasePath = deployConfig.ProductionProgramBasePath;
-            PackageBackUpPath = Path.Combine(ProductionProgramBasePath, "Release", "GenXls", CurrentDateTime.ToString(CommonConst.DateFormat));
-            ProductionProgramPath = Path.Combine(ProductionProgramBasePath, "Apps", "GENXLS");
-            ProductionBackUpBasePath = Path.Combine(ProductionProgramBasePath, "Migration", "GenXls");
-            ProductionBackUpFullPath = Path.Combine(ProductionProgramBasePath, "Release", ProgramName, CurrentDateTime.ToString(CommonConst.DateTimeFormat));
+            PackageReleasePath = Path.Combine(ProductionProgramBasePath, "Release", ProgramName, CurrentDateTime.ToString(CommonConst.DateFormat));
+            ProductionProgramPath = Path.Combine(ProductionProgramBasePath, "Apps", ProgramName.ToUpper());
+            ProductionBackUpBasePath = Path.Combine(ProductionProgramBasePath, "Migration", ProgramName);
+            ProductionBackUpFullPath = Path.Combine(ProductionBackUpBasePath, $"{ProgramName}.{CurrentDateTime.ToString(CommonConst.DateTimeFormat)}.zip");
             DiffHTMLName = $"{ProgramName},{RepoPreviousMergeHash}_{RepoLatestHash}";
             DeploymentFormName = $"{ProgramName}.{RepoLatestHash}.docx";
         }

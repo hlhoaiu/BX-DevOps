@@ -38,7 +38,7 @@ namespace DevOps.Services.System
             ZipReleaseFolder(config);
             GenerateWinMergeReport(config.RepoPreviousMergeHash, config.ProgramGitPath);
             CompileProgram();
-            ZipCompiledProgram(config.ProgramCompiledPath);
+            ZipCompiledProgram(config.ProgramCompiledPath, config.PackageCompilePath);
             ZipWholePackage(config.PackageBasePath, config.PackageName);
         }
 
@@ -73,10 +73,10 @@ namespace DevOps.Services.System
             // Considering do it manually during merge branch stage
         }
 
-        private void ZipCompiledProgram(string programCompiledDirectory)
+        private void ZipCompiledProgram(string programCompiledDirectory, string targetDirectory)
         {
             var sourceFolder = programCompiledDirectory;
-            var zipPath = Path.Combine(programCompiledDirectory, "Release.zip");
+            var zipPath = Path.Combine(targetDirectory, "Release.zip");
             _zipService.Zip(sourceFolder, zipPath);
         }
 
