@@ -17,23 +17,23 @@ using System.Windows.Shapes;
 
 namespace DevOps.Views
 {
-    public interface IDeploymentPage : ITemplatePage
+    public interface IDeployPage : ITemplatePage
     {
     }
     /// <summary>
-    /// Interaction logic for DeploymentPage.xaml
+    /// Interaction logic for DeployPage.xaml
     /// </summary>
-    public partial class DeploymentPage : Page, IDeploymentPage
+    public partial class DeployPage : Page, IDeployPage
     {
         private readonly ILogger _logger;
-        private readonly IDeploymentPackageManager _deploymentPackageManager;
+        private readonly IDeployManager _deployManager;
 
-        public DeploymentPage(
+        public DeployPage(
             ILogger logger, 
-            IDeploymentPackageManager deploymentPackageManager)
+            IDeployManager deployManager)
         {
             _logger = logger;
-            _deploymentPackageManager = deploymentPackageManager;
+            _deployManager = deployManager;
         }
 
         public Action<string> OnBackPage { get; set; }
@@ -68,9 +68,7 @@ namespace DevOps.Views
 
         private void XExecuteBtn_Click(object sender, RoutedEventArgs e)
         {
-            XStatus.Text = "Release Started";
-            _deploymentPackageManager.Release();
-            XStatus.Text = "Release Success";
+            _deployManager.Deploy();
         }
 
         private void XNextBtn_Click(object sender, RoutedEventArgs e)

@@ -39,7 +39,7 @@ namespace DevOps.Views
             IPackagePage packagePage,
             IFormPage formPage,
             IBackupPage backupPage,
-            IDeploymentPage deploymentPage,
+            IDeployPage deploymentPage,
             ILogger logger)
         {
             _pageMappings = new Dictionary<string, ITemplatePage>

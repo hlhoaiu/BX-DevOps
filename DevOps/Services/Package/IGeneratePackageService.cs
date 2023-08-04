@@ -1,4 +1,4 @@
-﻿namespace DevOps.Services.Package
+﻿namespace DevOps.Services.System
 {
     public interface IGeneratePackageService
     {

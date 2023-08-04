@@ -6,8 +6,8 @@ using DevOps.Serializer;
 using DevOps.Serializer.JSON;
 using DevOps.Services.Config;
 using DevOps.Services.Git;
-using DevOps.Services.Package;
 using DevOps.Services.System;
+using DevOps.Services.WinMerge;
 
 namespace DevOps.Modules
 {
@@ -15,26 +15,40 @@ namespace DevOps.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<ConfigManager>().As<IConfigManager>().InstancePerLifetimeScope();
-
-            builder.RegisterType<DeployConfigModel>().As<IDeployConfigModel>().InstancePerLifetimeScope();
+            builder.RegisterType<MLogger>().As<ILogger>().InstancePerLifetimeScope();
 
             builder.RegisterType<JSONSerializer>().As<ISerializer>().InstancePerLifetimeScope();
             builder.RegisterType<RetrieveJSONConfigService>().As<IRetrieveJSONConfigService>().InstancePerLifetimeScope();
             builder.RegisterType<UpdateJSONConfigService>().As<IUpdateJSONConfigService>().InstancePerLifetimeScope();
 
+            builder.RegisterType<DeployConfigModel>().As<IDeployConfigModel>().InstancePerLifetimeScope();
+
+            //Manager
+            builder.RegisterType<ConfigManager>().As<IConfigManager>().InstancePerLifetimeScope();
+            builder.RegisterType<BranchManager>().As<IBranchManager>().InstancePerLifetimeScope();
+            builder.RegisterType<DeploymentPackageManager>().As<IDeploymentPackageManager>().InstancePerLifetimeScope();
+            builder.RegisterType<ImplFormManager>().As<IImplFormManager>().InstancePerLifetimeScope();
+            builder.RegisterType<BackupManager>().As<IBackupManager>().InstancePerLifetimeScope();
+            builder.RegisterType<DeployManager>().As<IDeployManager>().InstancePerLifetimeScope();
+            
+            //Git
             builder.RegisterType<GitMergeService>().As<IGitMergeService>().InstancePerLifetimeScope();
             builder.RegisterType<GitHashService>().As<IGitHashService>().InstancePerLifetimeScope();
             builder.RegisterType<GitZipService>().As<IGitZipService>().InstancePerLifetimeScope();
             builder.RegisterType<GitCleanService>().As<IGitCleanService>().InstancePerLifetimeScope();
-            builder.RegisterType<GitManager>().As<IGitManager>().InstancePerLifetimeScope();
+            builder.RegisterType<GitDiffService>().As<IGitDiffService>().InstancePerLifetimeScope();
 
-            builder.RegisterType<DeploymentPackageManager>().As<IDeploymentPackageManager>().InstancePerLifetimeScope();
-            builder.RegisterType<GeneratePackageService>().As<IGeneratePackageService>().InstancePerLifetimeScope();
-            builder.RegisterType<MovePackageService>().As<IMovePackageService>().InstancePerLifetimeScope();
+            //System
+            builder.RegisterType<MoveFileService>().As<IMoveFileService>().InstancePerLifetimeScope();
+            builder.RegisterType<CopyFileService>().As<ICopyFileService>().InstancePerLifetimeScope();
             builder.RegisterType<ZipService>().As<IZipService>().InstancePerLifetimeScope();
 
-            builder.RegisterType<MLogger>().As<ILogger>().InstancePerLifetimeScope();
+            //WinMerge
+            builder.RegisterType<WinMergeReportService>().As<IWinMergeReportService>().InstancePerLifetimeScope();
+            builder.RegisterType<WinMergeCompareService>().As<IWinMergeCompareService>().InstancePerLifetimeScope();
+        
+            //Package
+            builder.RegisterType<GeneratePackageService>().As<IGeneratePackageService>().InstancePerLifetimeScope();
         }
     }
 }

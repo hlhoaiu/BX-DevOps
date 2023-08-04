@@ -1,4 +1,5 @@
 ﻿using DevOps.Logger;
+using DevOps.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,11 +26,14 @@ namespace DevOps.Views
     public partial class FormPage : Page, IFormPage
     {
         private readonly ILogger _logger;
+        private readonly IImplFormManager _implFormManager;
 
         public FormPage(
-            ILogger logger)
+            ILogger logger, 
+            IImplFormManager implFormManager)
         {
             _logger = logger;
+            _implFormManager = implFormManager;
         }
 
         public Action<string> OnBackPage { get; set; }
@@ -64,7 +68,7 @@ namespace DevOps.Views
 
         private void XExecuteBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            _implFormManager.Release();
         }
 
         private void XNextBtn_Click(object sender, RoutedEventArgs e)

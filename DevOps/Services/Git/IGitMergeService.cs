@@ -2,6 +2,6 @@
 {
     public interface IGitMergeService
     {
-        void Merge(string sourceBranch, string targetBranch, string gitDirectory);
+        void Merge(string sourceBranch, string mergeBranch, string gitDirectory);
     }
 }

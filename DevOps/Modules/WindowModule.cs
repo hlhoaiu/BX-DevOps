@@ -18,7 +18,7 @@ namespace DevOps.Modules
             builder.RegisterType<PackagePage>().As<IPackagePage>().SingleInstance();
             builder.RegisterType<FormPage>().As<IFormPage>().SingleInstance();
             builder.RegisterType<BackupPage>().As<IBackupPage>().SingleInstance();
-            builder.RegisterType<DeploymentPage>().As<IDeploymentPage>().SingleInstance();
+            builder.RegisterType<DeployPage>().As<IDeployPage>().SingleInstance();
         }
     }
 }

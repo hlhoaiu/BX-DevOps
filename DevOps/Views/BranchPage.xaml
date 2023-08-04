@@ -26,14 +26,19 @@
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
                     <DockPanel Grid.Row="0" Height="26">
-                        <TextBlock Text="Source Branch (From):" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
-                        <TextBox Name="XSourceBranch" Text="xxx" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" VerticalAlignment="Center"></TextBox>
+                        <TextBlock Text="Git Directory:" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
+                        <TextBox Name="XGitDirectory" Text="xxx" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" VerticalAlignment="Center"></TextBox>
                     </DockPanel>
                     <DockPanel Grid.Row="1" Height="26">
-                        <TextBlock Text="Target Branch (to):" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
-                        <TextBox Name="XTargetBranch" Text="123" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" VerticalAlignment="Center"></TextBox>
+                        <TextBlock Text="Source Branch (base):" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
+                        <TextBox Name="XSourceBranch" Text="xxx" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" VerticalAlignment="Center"></TextBox>
+                    </DockPanel>
+                    <DockPanel Grid.Row="2" Height="26">
+                        <TextBlock Text="Merge Branch (incoming):" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
+                        <TextBox Name="XMergeBranch" Text="123" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" VerticalAlignment="Center"></TextBox>
                     </DockPanel>
                 </Grid>
             </ScrollViewer>

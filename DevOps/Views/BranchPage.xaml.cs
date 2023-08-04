@@ -1,4 +1,5 @@
 ﻿using DevOps.Logger;
+using DevOps.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,11 +26,14 @@ namespace DevOps.Views
     public partial class BranchPage : Page, IBranchPage
     {
         private readonly ILogger _logger;
+        private readonly IBranchManager _branchManager;
 
         public BranchPage(
-            ILogger logger)
+            ILogger logger, 
+            IBranchManager branchManager)
         {
             _logger = logger;
+            _branchManager = branchManager;
         }
 
         public Action<string> OnBackPage { get; set; }
@@ -39,6 +43,8 @@ namespace DevOps.Views
         {
             InitializeComponent();
             RegisterLogUpdatedAction();
+            _branchManager.InitProposed();
+            SetFields();
         }
 
         private void RegisterLogUpdatedAction() 
@@ -47,6 +53,13 @@ namespace DevOps.Views
             _logger.OnLogUpdated -= OnLogUpdated;
             _logger.OnErrorUpdated += OnLogUpdated;
             _logger.OnLogUpdated += OnLogUpdated;
+        }
+
+        private void SetFields() 
+        {
+            XGitDirectory.Text = _branchManager.ProposedGitDirectory;
+            XSourceBranch.Text = _branchManager.ProposedSourceBranch;
+            XMergeBranch.Text = _branchManager.ProposedTargetBranch;
         }
 
         private void OnLogUpdated(string msg)
@@ -64,7 +77,8 @@ namespace DevOps.Views
 
         private void XExecuteBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            _branchManager.Merge(XSourceBranch.Text, XMergeBranch.Text, XGitDirectory.Text);
+            SetFields();
         }
 
         private void XNextBtn_Click(object sender, RoutedEventArgs e)

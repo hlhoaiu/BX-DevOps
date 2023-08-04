@@ -1,4 +1,5 @@
 ﻿using DevOps.Logger;
+using DevOps.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,11 +26,14 @@ namespace DevOps.Views
     public partial class BackupPage : Page, IBackupPage
     {
         private readonly ILogger _logger;
+        private readonly IBackupManager _backupManager;
 
         public BackupPage(
-            ILogger logger)
+            ILogger logger, 
+            IBackupManager backupManager)
         {
             _logger = logger;
+            _backupManager = backupManager;
         }
 
         public Action<string> OnBackPage { get; set; }
@@ -64,7 +68,7 @@ namespace DevOps.Views
 
         private void XExecuteBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            _backupManager.Backup();
         }
 
         private void XNextBtn_Click(object sender, RoutedEventArgs e)

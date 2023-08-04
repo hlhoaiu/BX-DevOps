@@ -10,22 +10,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DevOps.Services.Package
+namespace DevOps.Services.System
 {
     public class GeneratePackageService : IGeneratePackageService
     {
         private readonly IDeployConfigModel _deployConfigModel;
         private readonly IGitZipService _gitZipService;
         private readonly IZipService _zipService;
+        private readonly IGitDiffService _gitDiffService;
 
         public GeneratePackageService(
             IDeployConfigModel deployConfigModel,
             IGitZipService gitZipService,
-            IZipService zipService)
+            IZipService zipService,
+            IGitDiffService gitDiffService)
         {
             _deployConfigModel = deployConfigModel;
             _gitZipService = gitZipService;
             _zipService = zipService;
+            _gitDiffService = gitDiffService;
         }
 
         public void Generate()
@@ -33,10 +36,10 @@ namespace DevOps.Services.Package
             var config = _deployConfigModel.GetDeployConfig();
             CreateFolder(config);
             ZipReleaseFolder(config);
-            GenerateWinMergeReport();
+            GenerateWinMergeReport(config.RepoPreviousMergeHash, config.ProgramGitPath);
             CompileProgram();
-            ZipCompiledProgram(config);
-            ZipWholePackage(config);
+            ZipCompiledProgram(config.ProgramCompiledPath);
+            ZipWholePackage(config.PackageBasePath, config.PackageName);
         }
 
         private void CreateFolder(DeployConfig config) 
@@ -56,13 +59,13 @@ namespace DevOps.Services.Package
             // TODO: Loop More than one Nuget Package
             fileFullPath = config.PackageSourceNugetZipFullPath;
             gitHead = CommonConst.Master;
-            gitDirectory = config.ProgramGitPath;
+            gitDirectory = config.NugetGitPath;
             _gitZipService.Zip(fileFullPath, gitHead, gitDirectory);
         }
 
-        private void GenerateWinMergeReport() 
+        private void GenerateWinMergeReport(string oldHash, string gitDirectory) 
         {
-            
+            _gitDiffService.Diff(oldHash, CommonConst.Production, gitDirectory);
         }
 
         private void CompileProgram() 
@@ -70,17 +73,17 @@ namespace DevOps.Services.Package
             // Considering do it manually during merge branch stage
         }
 
-        private void ZipCompiledProgram(DeployConfig config)
+        private void ZipCompiledProgram(string programCompiledDirectory)
         {
-            var sourceFolder = config.ProgramCompiledPath;
-            var zipPath = Path.Combine(config.PackageCompilePath, "Release.zip");
+            var sourceFolder = programCompiledDirectory;
+            var zipPath = Path.Combine(programCompiledDirectory, "Release.zip");
             _zipService.Zip(sourceFolder, zipPath);
         }
 
-        private void ZipWholePackage(DeployConfig config) 
+        private void ZipWholePackage(string packageDirectory, string packageName) 
         {
-            var sourceFolder = Path.Combine(config.PackageBasePath, config.PackageName);
-            var zipPath = Path.Combine(config.PackageBasePath, $"{config.PackageName}.zip");
+            var sourceFolder = Path.Combine(packageDirectory, packageName);
+            var zipPath = Path.Combine(packageDirectory, $"{packageName}.zip");
             _zipService.Zip(sourceFolder, zipPath);
         }
     }

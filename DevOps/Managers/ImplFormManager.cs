@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace DevOps.Managers
 {
-    public class GitManager : IGitManager
+    public class ImplFormManager : IImplFormManager
     {
+        public void Release()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
