@@ -5,6 +5,7 @@ using DevOps.Models.Config;
 using DevOps.Serializer;
 using DevOps.Serializer.JSON;
 using DevOps.Services.Config;
+using DevOps.Services.Form;
 using DevOps.Services.Git;
 using DevOps.Services.System;
 using DevOps.Services.WinMerge;
@@ -46,7 +47,10 @@ namespace DevOps.Modules
             //WinMerge
             builder.RegisterType<WinMergeReportService>().As<IWinMergeReportService>().InstancePerLifetimeScope();
             builder.RegisterType<WinMergeCompareService>().As<IWinMergeCompareService>().InstancePerLifetimeScope();
-        
+
+            //Form
+            builder.RegisterType<ReplaceWordContentService>().As<IReplaceWordContentService>().InstancePerLifetimeScope();
+
             //Package
             builder.RegisterType<GeneratePackageService>().As<IGeneratePackageService>().InstancePerLifetimeScope();
         }

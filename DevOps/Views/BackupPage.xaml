@@ -58,7 +58,7 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Button Name ="XBackBtn" Content="Back" Click="XBackBtn_Click" Grid.Column="0" Margin="15,0,15,0" Padding="5" FontSize="20"/>
-                <Button Name ="XExecuteBtn"  Content="Execute Backup" Click="XExecuteBtn_Click" Grid.Column="1" Margin="15,0,15,0" Padding="5" FontSize="16"/>
+                <Button Name ="XExecuteBtn"  Content="Backup" Click="XExecuteBtn_Click" Grid.Column="1" Margin="15,0,15,0" Padding="5" FontSize="16"/>
                 <Button Name ="XNextBtn" Content="Next" Click="XNextBtn_Click" Grid.Column="2" Margin="15,0,15,0" Padding="5" FontSize="20"/>
             </Grid>
         </DockPanel>

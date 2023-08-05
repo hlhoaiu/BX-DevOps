@@ -92,24 +92,7 @@ namespace DevOps.Views
             foreach (var item in configDict)
             {
                 var isEditable = configJSONDict.ContainsKey(item.Key);
-                switch (item.Value)
-                {
-                    case string x:
-                        var itemStr = x.ToString();
-                        AddOrUpdateField(item.Key, itemStr, isEditable);
-                        break;
-                    case DateTime x:
-                        var dateStr = x.ToString(CommonConst.DateTimeFormat);
-                        AddOrUpdateField(item.Key, dateStr, isEditable);
-                        break;
-                    case IEnumerable<string> x:
-                        var combinedStr = string.Join('+', x);
-                        AddOrUpdateField(item.Key, combinedStr, isEditable);
-                        break;
-                    default:
-                        AddOrUpdateField(item.Key, string.Empty, isEditable);
-                        break;
-                }
+                AddOrUpdateField(item.Key, FieldHelpers.FieldToStr(item.Value), isEditable);
             }
         }
 

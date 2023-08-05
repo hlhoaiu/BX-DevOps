@@ -10,5 +10,6 @@ namespace DevOps.Helpers
         public static string ConfigDirectory => Path.Combine(CurrentDirectory, "Configs");
         public static string DeployConfigPath => Path.Combine(ConfigDirectory, Properties.Settings.Default.DeployConfigFileName);
         public static string TemplateDeployConfigPath => Path.Combine(ProjectDirectory, "Configs", Properties.Settings.Default.DeployConfigFileName);
+        public static string TemplateImplFormPath => Path.Combine(ProjectDirectory, "Template", "ImplementationFormTemplate.docx");
     }
 }
