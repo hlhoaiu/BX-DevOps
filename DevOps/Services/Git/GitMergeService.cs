@@ -12,11 +12,14 @@ namespace DevOps.Services.Git
     public class GitMergeService : IGitMergeService
     {
         private readonly ILogger _logger;
+        private readonly ICommandLineRunner _commandLineRunner;
 
         public GitMergeService(
-            ILogger logger)
+            ILogger logger, 
+            ICommandLineRunner commandLineRunner)
         {
             _logger = logger;
+            _commandLineRunner = commandLineRunner;
         }
 
         public void Merge(string sourceBranch, string mergeBranch, string gitDirectory)
@@ -29,15 +32,7 @@ namespace DevOps.Services.Git
             };
             foreach (var command in commands)
             {
-                CommandLineRunner.Run(command, out var output, out var error, gitDirectory);
-                if (!string.IsNullOrEmpty(output)) 
-                {
-                    _logger.Log(output);
-                }
-                if (!string.IsNullOrEmpty(error))
-                {
-                    _logger.Error(error);
-                }
+                _commandLineRunner.Run(command, out var output, out var error, gitDirectory);
             }
         }
     }

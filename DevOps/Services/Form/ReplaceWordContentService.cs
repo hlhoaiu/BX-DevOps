@@ -21,10 +21,13 @@ namespace DevOps.Services.Form
         {
             if (replaceDict == null || replaceDict.Count == 0) 
             {
+                _logger.Log("Nothing need to be replaced.");
                 return;
             }
+
             var fileFullPath = PathHelper.TemplateImplFormPath;
-            Application wordApp = new Application { Visible = true};
+            _logger.Log($"Started to replace string in Word Document. Total string to replace: {replaceDict.Count}. File Path: {fileFullPath}");
+            Application wordApp = new Application { Visible = false};
             Document wordDoc = wordApp.Documents.Open(fileFullPath, ReadOnly: false, Visible: true);
             foreach (var item in replaceDict)
             {
@@ -33,6 +36,7 @@ namespace DevOps.Services.Form
             wordDoc.SaveAs(saveAsPath);
             wordDoc.Close();
             wordApp.Quit();
+            _logger.Log($"All strings were replaced in Word Document. File saved to: {saveAsPath}");
         }
 
         private void FindAndReplace(Application doc, object findText, object replaceWithText)

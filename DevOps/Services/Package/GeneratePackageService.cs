@@ -1,4 +1,5 @@
-﻿using DevOps.Models;
+﻿using DevOps.Logger;
+using DevOps.Models;
 using DevOps.Models.Config;
 using DevOps.Services.Git;
 using DevOps.Services.System;
@@ -18,24 +19,27 @@ namespace DevOps.Services.System
         private readonly IGitZipService _gitZipService;
         private readonly IZipService _zipService;
         private readonly IGitDiffService _gitDiffService;
+        private readonly ILogger _logger;
 
         public GeneratePackageService(
             IDeployConfigModel deployConfigModel,
             IGitZipService gitZipService,
             IZipService zipService,
-            IGitDiffService gitDiffService)
+            IGitDiffService gitDiffService,
+            ILogger logger)
         {
             _deployConfigModel = deployConfigModel;
             _gitZipService = gitZipService;
             _zipService = zipService;
             _gitDiffService = gitDiffService;
+            _logger = logger;
         }
 
         public void Generate()
         {
             var config = _deployConfigModel.GetDeployConfig();
             CreateFolder(config);
-            ZipReleaseFolder(config);
+            ZipSourceFolder(config);
             GenerateWinMergeReport(config.RepoPreviousMergeHash, config.ProgramGitPath);
             CompileProgram();
             ZipCompiledProgram(config.ProgramCompiledPath, config.PackageCompilePath);
@@ -44,13 +48,15 @@ namespace DevOps.Services.System
 
         private void CreateFolder(DeployConfig config) 
         {
+            _logger.Log("Start to prepare package folders");
             Directory.CreateDirectory(config.PackageCompilePath);
             Directory.CreateDirectory(config.PackageDiffPath);
             Directory.CreateDirectory(Path.GetDirectoryName(config.PackageSourceNugetZipFullPath));
         }
 
-        private void ZipReleaseFolder(DeployConfig config) 
+        private void ZipSourceFolder(DeployConfig config) 
         {
+            _logger.Log($"Start to zip source folder into package.");
             var fileFullPath = config.PackageSourceZipFullPath;
             var gitHead = CommonConst.Production;
             var gitDirectory = config.ProgramGitPath;
@@ -65,7 +71,9 @@ namespace DevOps.Services.System
 
         private void GenerateWinMergeReport(string oldHash, string gitDirectory) 
         {
-            _gitDiffService.Diff(oldHash, CommonConst.Production, gitDirectory);
+            var newHash = CommonConst.Production;
+            _logger.Log($"Start to generate WinMerge report into package. | Diff - Old: {oldHash}, New: {newHash}");
+            _gitDiffService.Diff(oldHash, newHash, gitDirectory);
         }
 
         private void CompileProgram() 
@@ -77,6 +85,7 @@ namespace DevOps.Services.System
         {
             var sourceFolder = programCompiledDirectory;
             var zipPath = Path.Combine(targetDirectory, "Release.zip");
+            _logger.Log($"Start to zip compiled release folder into package. | FROM: {sourceFolder} | TO: {zipPath}");
             _zipService.Zip(sourceFolder, zipPath);
         }
 
@@ -84,6 +93,7 @@ namespace DevOps.Services.System
         {
             var sourceFolder = Path.Combine(packageDirectory, packageName);
             var zipPath = Path.Combine(packageDirectory, $"{packageName}.zip");
+            _logger.Log($"Start to zip whole package folder. | FROM: {sourceFolder} | TO: {zipPath}");
             _zipService.Zip(sourceFolder, zipPath);
         }
     }

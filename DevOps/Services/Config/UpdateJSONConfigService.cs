@@ -21,17 +21,14 @@ namespace DevOps.Services.Config
 
         public bool Update(DeployJSONConfig updatedConfig)
         {
-            try
+            var isSuccess = _JSONSerializer.TrySerialize(updatedConfig, out var jsonStr);
+            if (isSuccess) 
             {
-                var jsonStr = _JSONSerializer.Serialize(updatedConfig);
                 FileHelper.WriteDeployConfigToFile(jsonStr);
+                return true;
             }
-            catch (Exception e)
-            {
-                _logger.Log(e.Message);
-                return false;
-            }
-            return true;
+            _logger.Error("Unable to Serialize updated config. No file was updated.");
+            return false;
         }
     }
 }

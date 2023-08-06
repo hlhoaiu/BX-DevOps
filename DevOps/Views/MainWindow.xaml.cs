@@ -3,6 +3,7 @@ using Autofac.Core;
 using DevOps.Helpers;
 using DevOps.Logger;
 using DevOps.Managers;
+using DevOps.Models;
 using DevOps.Modules;
 using System;
 using System.Collections.Generic;
@@ -44,12 +45,12 @@ namespace DevOps.Views
         {
             _pageMappings = new Dictionary<string, ITemplatePage>
             {
-                { "ConfigPage", configPage },
-                { "Branch", branchPage },
-                { "PackagePage", packagePage },
-                { "FormPage", formPage },
-                { "BackupPage", backupPage },
-                { "DeploymentPage", deploymentPage }
+                { nameof(ConfigPage), configPage },
+                { nameof(BranchPage), branchPage },
+                { nameof(PackagePage), packagePage },
+                { nameof(FormPage), formPage },
+                { nameof(BackupPage), backupPage },
+                { nameof(DeployPage), deploymentPage }
             };
             _logger = logger;
 
@@ -59,8 +60,7 @@ namespace DevOps.Views
 
         private void Init() 
         {
-            // TODO: Get this by another config/user selection
-            _pageSequence = _pageMappings.Select(x => x.Value).ToList();
+            _pageSequence = PageSequence.Sequence.Select(x => _pageMappings[x]).ToList();
 
             for (int i = 0; i < _pageSequence.Count; i++)
             {

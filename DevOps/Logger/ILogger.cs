@@ -10,6 +10,8 @@ namespace DevOps.Logger
     {
         Action<string> OnLogUpdated { get; set; }
         Action<string> OnErrorUpdated { get; set; }
+        string CombinedLogs { get; }
+
         void Log(string msg);
         void Error(string msg);
     }

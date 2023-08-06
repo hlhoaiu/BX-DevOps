@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevOps.Logger;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,9 +8,16 @@ using System.Threading.Tasks;
 
 namespace DevOps.Helpers
 {
-    public class CommandLineRunner
+    public class CommandLineRunner : ICommandLineRunner
     {
-        public static void Run(string command, out string output, out string error, string directory = null)
+        private readonly ILogger _logger;
+
+        public CommandLineRunner(ILogger logger)
+        {
+            _logger = logger;
+        }
+
+        public void Run(string command, out string output, out string error, string directory = null)
         {
             using Process process = new Process
             {
@@ -25,10 +33,20 @@ namespace DevOps.Helpers
                     WorkingDirectory = directory ?? string.Empty,
                 }
             };
+            _logger.Log("Running command: " + command);
             process.Start();
             process.WaitForExit();
             output = process.StandardOutput.ReadToEnd();
             error = process.StandardError.ReadToEnd();
+
+            if (!string.IsNullOrEmpty(output))
+            {
+                _logger.Log(output);
+            }
+            if (!string.IsNullOrEmpty(error))
+            {
+                _logger.Error(error);
+            }
         }
     }
 }

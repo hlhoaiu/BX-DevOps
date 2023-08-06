@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using DevOps.Helpers;
 using DevOps.Logger;
 using DevOps.Managers;
 using DevOps.Models.Config;
@@ -17,6 +18,7 @@ namespace DevOps.Modules
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<MLogger>().As<ILogger>().InstancePerLifetimeScope();
+            builder.RegisterType<CommandLineRunner>().As<ICommandLineRunner>().InstancePerLifetimeScope();
 
             builder.RegisterType<JSONSerializer>().As<ISerializer>().InstancePerLifetimeScope();
             builder.RegisterType<RetrieveJSONConfigService>().As<IRetrieveJSONConfigService>().InstancePerLifetimeScope();

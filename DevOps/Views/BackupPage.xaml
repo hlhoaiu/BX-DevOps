@@ -39,11 +39,9 @@
             </ScrollViewer>
         </DockPanel>
         <StackPanel Name ="XPanel" Grid.Row="2" VerticalAlignment="Top">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <TextBox Name="XLog" Text="Log Init..." Height="270" FontSize="14" BorderThickness="1" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="15">
+            <TextBox Name="XLog" Text="Log Init..." Height="270" FontSize="14" BorderThickness="1" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="15">
 
-                </TextBox>
-            </ScrollViewer>
+            </TextBox>
         </StackPanel>
         <DockPanel Name ="XStatusPanel" Grid.Row="3" VerticalAlignment="Center">
             <Border BorderThickness="1" BorderBrush="Gray" Margin="15,2,15,2">

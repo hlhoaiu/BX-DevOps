@@ -9,7 +9,9 @@ namespace DevOps.Logger
 {
     public class MLogger : ILogger
     {
-        private List<string> Logs = new List<string>();
+        private List<string> _logs = new List<string>();
+
+        public string CombinedLogs { get; private set; }
 
         public Action<string> OnLogUpdated { get; set; }
         public Action<string> OnErrorUpdated { get; set; }
@@ -18,7 +20,8 @@ namespace DevOps.Logger
         {
             msg = $"[LOG][{DateTime.Now}] {msg}";
             Console.WriteLine(msg);
-            Logs.Add(msg);
+            _logs.Add(msg);
+            CombinedLogs += msg + "\n";
             if (OnLogUpdated != null)
             {
                 OnLogUpdated(msg);
@@ -29,7 +32,8 @@ namespace DevOps.Logger
         {
             msg = $"[ERROR][{DateTime.Now}] {msg}";
             Console.WriteLine(msg);
-            Logs.Add(msg);
+            _logs.Add(msg);
+            CombinedLogs += msg + "\n";
             if (OnErrorUpdated != null)
             {
                 OnErrorUpdated(msg);

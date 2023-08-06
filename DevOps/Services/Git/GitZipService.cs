@@ -12,25 +12,21 @@ namespace DevOps.Services.Git
     public class GitZipService : IGitZipService
     {
         private readonly ILogger _logger;
+        private readonly ICommandLineRunner _commandLineRunner;
 
         public GitZipService(
-            ILogger logger)
+            ILogger logger, 
+            ICommandLineRunner commandLineRunner)
         {
             _logger = logger;
+            _commandLineRunner = commandLineRunner;
         }
 
         public void Zip(string fileFullPath, string gitHead, string gitDirectory)
         {
+            _logger.Log($"GitZip under Directory: {gitDirectory} | FROM: {gitHead} | TO: {fileFullPath}");
             var command = $"git archive --format zip --output \"{fileFullPath}\" {gitHead}";
-            CommandLineRunner.Run(command, out var output, out var error, gitDirectory);
-            if (!string.IsNullOrEmpty(output))
-            {
-                _logger.Log(output);
-            }
-            if (!string.IsNullOrEmpty(error))
-            {
-                _logger.Error(error);
-            }
+            _commandLineRunner.Run(command, out var output, out var error, gitDirectory);
         }
     }
 }

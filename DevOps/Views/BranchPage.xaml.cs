@@ -1,5 +1,6 @@
 ﻿using DevOps.Logger;
 using DevOps.Managers;
+using DevOps.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,9 +43,16 @@ namespace DevOps.Views
         public void Init()
         {
             InitializeComponent();
+            InitLog();
             RegisterLogUpdatedAction();
             _branchManager.InitProposed();
             SetFields();
+        }
+
+        private void InitLog() 
+        {
+            XLog.Text = $"Init {nameof(BranchPage)}\n" + _logger.CombinedLogs;
+            XLog.ScrollToEnd();
         }
 
         private void RegisterLogUpdatedAction() 
@@ -57,6 +65,8 @@ namespace DevOps.Views
 
         private void SetFields() 
         {
+            XStatus.Text = "Status: Init Success";
+            XTitle.Text = PageSequence.NameMapping[this.GetType().Name];
             XGitDirectory.Text = _branchManager.ProposedGitDirectory;
             XSourceBranch.Text = _branchManager.ProposedSourceBranch;
             XMergeBranch.Text = _branchManager.ProposedTargetBranch;
@@ -71,21 +81,23 @@ namespace DevOps.Views
         {
             if (OnBackPage != null)
             {
-                OnBackPage($"Back from {nameof(this.Name)}");
+                OnBackPage(PageSequence.GetOnBackPageLog(this.GetType().Name));
             }
         }
 
         private void XExecuteBtn_Click(object sender, RoutedEventArgs e)
         {
+            XStatus.Text = "Status: Started to Merge";
             _branchManager.Merge(XSourceBranch.Text, XMergeBranch.Text, XGitDirectory.Text);
             SetFields();
+            XStatus.Text = "Status: Merge Success";
         }
 
         private void XNextBtn_Click(object sender, RoutedEventArgs e)
         {
             if (OnNextPage != null)
             {
-                OnNextPage($"From {nameof(this.Name)} to next");
+                OnNextPage(PageSequence.GetOnNextPageLog(this.GetType().Name));
             }
         }
     }

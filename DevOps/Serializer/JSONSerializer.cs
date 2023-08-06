@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DevOps.Logger;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,13 @@ namespace DevOps.Serializer.JSON
 {
     public class JSONSerializer : ISerializer
     {
+        private readonly ILogger _logger;
+
+        public JSONSerializer(ILogger logger)
+        {
+            _logger = logger;
+        }
+
         public T Deserialize<T>(string value)
         {
             return JsonConvert.DeserializeObject<T>(value);
@@ -33,9 +41,9 @@ namespace DevOps.Serializer.JSON
             {
                 result = JsonConvert.DeserializeObject<T>(str);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.Error(ex.Message);
                 return false;
             }
 
@@ -55,9 +63,9 @@ namespace DevOps.Serializer.JSON
             {
                 result = JsonConvert.SerializeObject(obj);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.Error(ex.Message);
                 return false;
             }
 

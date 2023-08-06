@@ -1,4 +1,5 @@
-﻿using DevOps.Models.Config;
+﻿using DevOps.Logger;
+using DevOps.Models.Config;
 using DevOps.Services.System;
 using DevOps.Views;
 using System;

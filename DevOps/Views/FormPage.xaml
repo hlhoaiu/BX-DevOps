@@ -28,22 +28,20 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <DockPanel Grid.Row="0" Height="26">
-                        <TextBlock Text="Source Branch (From):" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
-                        <TextBox Name="XSourceBranch" Text="xxx" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" VerticalAlignment="Center"></TextBox>
+                        <TextBlock Text="Form Name" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
+                        <TextBox Name="XDeploymentFormName" Text="xxx" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" VerticalAlignment="Center"></TextBox>
                     </DockPanel>
                     <DockPanel Grid.Row="1" Height="26">
-                        <TextBlock Text="Target Branch (to):" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
-                        <TextBox Name="XTargetBranch" Text="123" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" VerticalAlignment="Center"></TextBox>
+                        <TextBlock Text="Last Deployed Items" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
+                        <TextBox Name="XLastDeployedItems" Text="field your item here" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" VerticalAlignment="Center"></TextBox>
                     </DockPanel>
                 </Grid>
             </ScrollViewer>
         </DockPanel>
         <StackPanel Name ="XPanel" Grid.Row="2" VerticalAlignment="Top">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <TextBox Name="XLog" Text="Log Init..." Height="270" FontSize="14" BorderThickness="1" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="15">
+            <TextBox Name="XLog" Text="Log Init..." Height="270" FontSize="14" BorderThickness="1" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="15">
 
-                </TextBox>
-            </ScrollViewer>
+            </TextBox>
         </StackPanel>
         <DockPanel Name ="XStatusPanel" Grid.Row="3" VerticalAlignment="Center">
             <Border BorderThickness="1" BorderBrush="Gray" Margin="15,2,15,2">

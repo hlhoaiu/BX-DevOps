@@ -10,26 +10,21 @@ namespace DevOps.Services.Git
 {
     public class GitCleanService : IGitCleanService
     {
+        private readonly ICommandLineRunner _commandLineRunner;
         private readonly ILogger _logger;
 
         public GitCleanService(
-            ILogger logger)
+            ILogger logger, 
+            ICommandLineRunner commandLineRunner)
         {
             _logger = logger;
+            _commandLineRunner = commandLineRunner;
         }
 
         public void Clean(string gitDirectory)
         {
             var command = $"git clean -x -f -d";
-            CommandLineRunner.Run(command, out var output, out var error, gitDirectory);
-            if (!string.IsNullOrEmpty(output))
-            {
-                _logger.Log(output);
-            }
-            if (!string.IsNullOrEmpty(error))
-            {
-                _logger.Error(error);
-            }
+            _commandLineRunner.Run(command, out var output, out var error, gitDirectory);
         }
     }
 }

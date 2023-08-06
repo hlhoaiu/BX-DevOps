@@ -11,24 +11,20 @@ namespace DevOps.Services.Git
     public class GitDiffService : IGitDiffService
     {
         private readonly ILogger _logger;
+        private readonly ICommandLineRunner _commandLineRunner;
 
-        public GitDiffService(ILogger logger)
+        public GitDiffService(
+            ILogger logger, 
+            ICommandLineRunner commandLineRunner)
         {
             _logger = logger;
+            _commandLineRunner = commandLineRunner;
         }
 
         public void Diff(string oldHash, string newHash, string gitDirectory)
         {
             var command = $"git difftool --dir-diff --tool winmerge {oldHash} {newHash}";
-            CommandLineRunner.Run(command, out var output, out var error, gitDirectory);
-            if (!string.IsNullOrEmpty(output))
-            {
-                _logger.Log(output);
-            }
-            if (!string.IsNullOrEmpty(error))
-            {
-                _logger.Error(error);
-            }
+            _commandLineRunner.Run(command, out var output, out var error, gitDirectory);
         }
     }
 }

@@ -48,30 +48,36 @@ namespace DevOps.Views
         {
             InitializeComponent();
             AddOrUpdateFields();
-            XStatus.Text = "Init Success";
+            SetFields();
+        }
+
+        private void SetFields()
+        {
+            XStatus.Text = "Status: Init Success";
+            XTitle.Text = PageSequence.NameMapping[this.GetType().Name];
         }
 
         private void XResetBtn_Click(object sender, RoutedEventArgs e)
         {
-            XStatus.Text = "Reset Started";
+            XStatus.Text = "Status: Reset Started";
             _tempDeployConfig = null;
             AddOrUpdateFields();
-            XStatus.Text = "Reset Success";
+            XStatus.Text = "Status: Reset Success";
         }
 
         private void XSaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            XStatus.Text = "Save Started";
+            XStatus.Text = "Status: Save Started";
             var updatedJSONConfig = UpdateTempJSONConfig();
             _configManager.Update(updatedJSONConfig);
-            XStatus.Text = "Save Success";
+            XStatus.Text = "Status: Save Success";
         }
 
         private void XStartBtn_Click(object sender, RoutedEventArgs e)
         {
             if (OnNextPage != null) 
             {
-                OnNextPage($"From {this.Name} to next");
+                OnNextPage(PageSequence.GetOnNextPageLog(this.GetType().Name));
             }
         }
 

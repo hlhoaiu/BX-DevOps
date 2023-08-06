@@ -11,21 +11,23 @@ namespace DevOps.Services.Git
     public class GitHashService : IGitHashService
     {
         private readonly ILogger _logger;
+        private readonly ICommandLineRunner _commandLineRunner;
 
-        public GitHashService(ILogger logger)
+        public GitHashService(
+            ILogger logger, 
+            ICommandLineRunner commandLineRunner)
         {
             _logger = logger;
+            _commandLineRunner = commandLineRunner;
         }
 
         public string GetHash(string branch, string gitDirectory)
         {
             var command = $"git rev-parse --short {branch}";
-            CommandLineRunner.Run(command, out var output, out var error, gitDirectory);
-            if (!string.IsNullOrEmpty(error)) 
+            _commandLineRunner.Run(command, out var output, out var error, gitDirectory);
+            if (string.IsNullOrEmpty(output)) 
             {
-                var errorMsg = $"Git hash error: {error}";
-                _logger.Error(errorMsg);
-                throw new Exception($"Git hash error: {errorMsg}");
+                throw new ArgumentNullException($"Git hash should never been null or empty.");
             }
             return output.Trim();
         }
