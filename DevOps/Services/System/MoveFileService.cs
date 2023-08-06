@@ -18,7 +18,13 @@ namespace DevOps.Services.System
         {
             var fileName = Path.GetFileName(filePath);
             Directory.CreateDirectory(targetDirectory);
-            File.Move(filePath, Path.Combine(targetDirectory, fileName), true);
+            var targetPath = Path.Combine(targetDirectory, fileName);
+            _logger.Log($"[MOVE] File attempt to move FROM: {filePath} | TO: {targetPath}");
+            File.Move(filePath, targetPath, true);
+            if (File.Exists(targetPath))
+            {
+                _logger.Log($"[MOVE] File successfully move to {targetPath}");
+            }
         }
     }
 }

@@ -20,7 +20,13 @@ namespace DevOps.Services.System
             foreach (var directory in targetDirectories)
             {
                 Directory.CreateDirectory(directory);
-                File.Copy(filePath, Path.Combine(directory, fileName), true);
+                var targetPath = Path.Combine(directory, fileName);
+                _logger.Log($"[COPY] File attempt to copy FROM: {filePath} | TO: {targetPath}");
+                File.Copy(filePath, targetPath, true);
+                if (File.Exists(targetPath))
+                {
+                    _logger.Log($"[COPY] File successfully copy to {targetPath}");
+                }
             }
         }
     }

@@ -71,8 +71,8 @@ namespace DevOps.Services.System
 
         private void GenerateWinMergeReport(string oldHash, string gitDirectory) 
         {
+            _logger.Log($"Start to generate WinMerge report into package");
             var newHash = CommonConst.Production;
-            _logger.Log($"Start to generate WinMerge report into package. | Diff - Old: {oldHash}, New: {newHash}");
             _gitDiffService.Diff(oldHash, newHash, gitDirectory);
         }
 
@@ -83,17 +83,17 @@ namespace DevOps.Services.System
 
         private void ZipCompiledProgram(string programCompiledDirectory, string targetDirectory)
         {
+            _logger.Log($"Start to zip compiled release folder into package");
             var sourceFolder = programCompiledDirectory;
             var zipPath = Path.Combine(targetDirectory, "Release.zip");
-            _logger.Log($"Start to zip compiled release folder into package. | FROM: {sourceFolder} | TO: {zipPath}");
             _zipService.Zip(sourceFolder, zipPath);
         }
 
         private void ZipWholePackage(string packageDirectory, string packageName) 
         {
+            _logger.Log($"Start to zip whole package folder");
             var sourceFolder = Path.Combine(packageDirectory, packageName);
             var zipPath = Path.Combine(packageDirectory, $"{packageName}.zip");
-            _logger.Log($"Start to zip whole package folder. | FROM: {sourceFolder} | TO: {zipPath}");
             _zipService.Zip(sourceFolder, zipPath);
         }
     }

@@ -33,7 +33,7 @@ namespace DevOps.Helpers
                     WorkingDirectory = directory ?? string.Empty,
                 }
             };
-            _logger.Log("Running command: " + command);
+            _logger.Log($"[RUN COMMAND] {command}");
             process.Start();
             process.WaitForExit();
             output = process.StandardOutput.ReadToEnd();
@@ -41,11 +41,11 @@ namespace DevOps.Helpers
 
             if (!string.IsNullOrEmpty(output))
             {
-                _logger.Log(output);
+                _logger.Log(output.TrimEnd());
             }
             if (!string.IsNullOrEmpty(error))
             {
-                _logger.Error(error);
+                _logger.Error(error.TrimEnd());
             }
         }
     }

@@ -28,6 +28,8 @@ namespace DevOps.Models
             { nameof(DeployPage), "Deploy Page" }
         };
 
+        private static string PageSeparater => "\n-------------\n";
+
         public static string GetNextPageName(string currentPageName) 
         {
             var currentPageIndex = Sequence.IndexOf(currentPageName);
@@ -40,7 +42,7 @@ namespace DevOps.Models
 
         public static string GetOnNextPageLog(string currentPageName) 
         {
-            return $"From [{NameMapping[currentPageName]}] go to [{GetNextPageName(currentPageName)}]";
+            return $"{PageSeparater}From [{NameMapping[currentPageName]}] go to [{GetNextPageName(currentPageName)}]";
         }
 
         public static string GetBackPageName(string currentPageName)
@@ -55,7 +57,7 @@ namespace DevOps.Models
 
         public static string GetOnBackPageLog(string currentPageName)
         {
-            return $"From [{NameMapping[currentPageName]}] go back to [{GetBackPageName(currentPageName)}]";
+            return $"{PageSeparater}From [{NameMapping[currentPageName]}] go back to [{GetBackPageName(currentPageName)}]";
         }
     }
 }
