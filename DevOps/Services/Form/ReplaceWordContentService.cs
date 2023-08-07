@@ -2,6 +2,7 @@
 using DevOps.Logger;
 using DevOps.Models.Config;
 using Microsoft.Office.Interop.Word;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,15 +29,26 @@ namespace DevOps.Services.Form
             var fileFullPath = PathHelper.TemplateImplFormPath;
             _logger.Log($"Started to replace string in Word Document. Total string to replace: {replaceDict.Count}. File Path: {fileFullPath}");
             Application wordApp = new Application { Visible = false};
-            Document wordDoc = wordApp.Documents.Open(fileFullPath, ReadOnly: false, Visible: true);
-            foreach (var item in replaceDict)
+            try
             {
-                FindAndReplace(wordApp, item.Key, item.Value);
+                Document wordDoc = wordApp.Documents.Open(fileFullPath, ReadOnly: false, Visible: true);
+                foreach (var item in replaceDict)
+                {
+                    FindAndReplace(wordApp, item.Key, item.Value);
+                }
+                wordDoc.SaveAs(saveAsPath);
+                wordDoc.Close();
+                _logger.Log($"All strings were replaced in Word Document. File saved to: {saveAsPath}");
             }
-            wordDoc.SaveAs(saveAsPath);
-            wordDoc.Close();
-            wordApp.Quit();
-            _logger.Log($"All strings were replaced in Word Document. File saved to: {saveAsPath}");
+            catch (global::System.Exception ex)
+            {
+                _logger.Error(ex.Message);
+            }
+            finally 
+            {
+                wordApp.Quit();
+                GC.Collect();
+            }
         }
 
         private void FindAndReplace(Application doc, object findText, object replaceWithText)
