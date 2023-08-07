@@ -35,7 +35,8 @@ namespace DevOps.Models.Config
         public string ProductionBackUpFullPath { get; } // <ProductionBackupBasePath>\<ProgramName>.<CurrentDateTime>.zip
         public string DiffHTMLName { get; } // <ProgramName>,<RepoPreviousMergeHash>_<RepoLatestHash>.html
         public string DeploymentFormName { get; } // <ProgramName>.<RepoLatestHash>.docx
-        
+        public IEnumerable<NugetConfig> NugetConfigs { get; set; }
+
         public DeployConfig(DeployJSONConfig deployConfig, string repoLatestHash) 
         {
             CurrentDateTime = DateTime.Now;
@@ -65,6 +66,7 @@ namespace DevOps.Models.Config
             ProductionBackUpFullPath = Path.Combine(ProductionBackUpBasePath, $"{ProgramName}.{CurrentDateTime.ToString(CommonConst.DateTimeFormat)}.zip");
             DiffHTMLName = $"{ProgramName},{RepoPreviousMergeHash}_{RepoLatestHash}";
             DeploymentFormName = $"{ProgramName}.{RepoLatestHash}.docx";
+            NugetConfigs = deployConfig.NugetConfigs.Select(x => new NugetConfig(x, Path.Combine(PackageBasePath, PackageName, "source", $"{x.NugetRepoName}.{x.NugetPackageVersion}.zip")));
         }
 
         public DeployJSONConfig ToJSONConfig() 
@@ -83,7 +85,37 @@ namespace DevOps.Models.Config
                 NugetPackageVersion = NugetPackageVersion,
                 ProgramCompiledPath = ProgramCompiledPath,
                 CustomPackageBackUpPaths = CustomPackageBackUpPaths,
-                ProductionProgramBasePath = ProductionProgramBasePath
+                ProductionProgramBasePath = ProductionProgramBasePath,
+                NugetConfigs = NugetConfigs.Select(x => x.ToJSONConfig())
+            };
+        }
+    }
+
+    public class NugetConfig
+    {
+        public string NugetGitPath { get; }
+        public string TargetNugetPath { get; } // C:\ProgramSource\GenXls\packages
+        public string NugetRepoName { get; } //AS400.Interfaces
+        public string NugetPackageVersion { get; } //v1.11.1
+        public string PackageSourceNugetZipFullPath { get; } // <PackageBasePath>\<PackageName>\source\<NugetRepoName>.<NugetPackVersion>.zip
+
+        public NugetConfig(NugetJSONConfig jsonConfig, string packageSourceNugetZipFullPath) 
+        {
+            NugetGitPath = jsonConfig.NugetGitPath;
+            TargetNugetPath = jsonConfig.TargetNugetPath;
+            NugetRepoName = jsonConfig.NugetRepoName;
+            NugetPackageVersion = jsonConfig.NugetPackageVersion;
+            PackageSourceNugetZipFullPath = packageSourceNugetZipFullPath;
+        }
+
+        public NugetJSONConfig ToJSONConfig()
+        {
+            return new NugetJSONConfig
+            {
+                NugetGitPath = NugetGitPath,
+                TargetNugetPath = TargetNugetPath,
+                NugetRepoName = NugetRepoName,
+                NugetPackageVersion = NugetPackageVersion
             };
         }
     }

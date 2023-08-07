@@ -100,7 +100,28 @@ namespace DevOps.Views
             foreach (var item in configDict)
             {
                 var isEditable = configJSONDict.ContainsKey(item.Key);
-                AddOrUpdateField(item.Key, FieldHelpers.FieldToStr(item.Value), isEditable);
+                if (item.Value is IEnumerable<NugetConfig> nugetConfigs)
+                {
+                    HandleNugetFields(nugetConfigs);
+                }
+                else 
+                {
+                    AddOrUpdateField(item.Key, FieldHelpers.FieldToStr(item.Value), isEditable);
+                }
+            }
+        }
+
+        private void HandleNugetFields(IEnumerable<NugetConfig> nugetConfigs) 
+        {
+            int index = 0;
+            foreach (var nugetConfig in nugetConfigs)
+            {
+                var nugetConfigDict = FieldHelpers.ToDict(nugetConfig);
+                foreach (var item in nugetConfigDict)
+                {
+                    AddOrUpdateField($"{item.Key}_{index}", FieldHelpers.FieldToStr(item.Value), true);
+                }
+                index++;
             }
         }
 

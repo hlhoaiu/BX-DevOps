@@ -13,5 +13,19 @@
   "CustomPackageBackUpPaths": [
     "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\CustomBackupPath1"
   ],
-  "ProductionProgramBasePath": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\Production"
+  "ProductionProgramBasePath": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\Production",
+  "NugetConfigs": [
+    {
+      "NugetGitPath": "C:\\Users\\HIM HO\\source\\repos\\BX-DevOps",
+      "TargetNugetPath": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\TargetPackagePath",
+      "NugetRepoName": "AS400.Interfaces",
+      "NugetPackageVersion": "v1.11.1"
+    },
+    {
+      "NugetGitPath": "C:\\Users\\HIM HO\\source\\repos\\BX-DevOps",
+      "TargetNugetPath": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\TargetPackagePath",
+      "NugetRepoName": "AS400.Helpers",
+      "NugetPackageVersion": "v1.99.9"
+    }
+  ]
 }

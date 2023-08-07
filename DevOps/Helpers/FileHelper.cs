@@ -13,19 +13,26 @@ namespace DevOps.Helpers
                 Directory.CreateDirectory(configDirectory);
             }
 
-            var configPath = PathHelper.DeployConfigPath;
             var customConfigPath = Properties.Settings.Default.CustomDeployConfigPath;
-            var sourceConfigPath = string.IsNullOrWhiteSpace(customConfigPath) ?
-                                    PathHelper.TemplateDeployConfigPath :
-                                    customConfigPath;
-            File.Copy(sourceConfigPath, configPath, true);
+            var configPath = string.IsNullOrWhiteSpace(customConfigPath) ?
+                            PathHelper.DeployConfigPath :
+                            customConfigPath;
+
+            if (!File.Exists(configPath)) 
+            {
+                var sourceConfigPath = PathHelper.TemplateDeployConfigPath;
+                File.Copy(sourceConfigPath, configPath, true);
+            }
 
             return File.ReadAllText(configPath);
         }
 
         public static void WriteDeployConfigToFile(string jsonStr) 
         {
-            var configPath = PathHelper.DeployConfigPath;
+            var customConfigPath = Properties.Settings.Default.CustomDeployConfigPath;
+            var configPath = string.IsNullOrWhiteSpace(customConfigPath) ?
+                                                        PathHelper.DeployConfigPath :
+                                                        customConfigPath;
             File.WriteAllText(configPath, jsonStr);
         }
     }
