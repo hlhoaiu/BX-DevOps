@@ -28,6 +28,7 @@ namespace DevOps.Managers
             var config = _deployConfigModel.GetDeployConfig();
             var configDict = FieldHelpers.ToStrDict(config).ToDictionary(kvp=>$"<{kvp.Key}>", kvp => kvp.Value);
             var formReleasePath = Path.Combine(config.PackageReleasePath, config.DeploymentFormName);
+            Directory.CreateDirectory(config.PackageReleasePath);
             _replaceWordContentService.Replace(configDict, formReleasePath);
         }
     }

@@ -153,19 +153,8 @@ namespace DevOps.Views
 
         private DeployJSONConfig UpdateTempJSONConfig()
         {
-            return new DeployJSONConfig()
-            {
-                ReleaseBranchName = _cacheTextBoxes[nameof(DeployConfig.ReleaseBranchName)].Text,
-                TargetNugetPath = _cacheTextBoxes[nameof(DeployConfig.TargetNugetPath)].Text,
-                PackageBasePath = _cacheTextBoxes[nameof(DeployConfig.PackageBasePath)].Text,
-                JobIds = _cacheTextBoxes[nameof(DeployConfig.JobIds)].Text.Split('+'),
-                RepoPreviousMergeHash = _cacheTextBoxes[nameof(DeployConfig.RepoPreviousMergeHash)].Text,
-                ProgramName = _cacheTextBoxes[nameof(DeployConfig.ProgramName)].Text,
-                NugetRepoName = _cacheTextBoxes[nameof(DeployConfig.NugetRepoName)].Text,
-                ProgramCompiledPath = _cacheTextBoxes[nameof(DeployConfig.ProgramCompiledPath)].Text,
-                CustomPackageBackUpPaths = new string[] { _cacheTextBoxes[nameof(DeployConfig.CustomPackageBackUpPaths)].Text },
-                ProductionProgramBasePath = _cacheTextBoxes[nameof(DeployConfig.ProductionProgramBasePath)].Text
-            };
+            var dict = _cacheTextBoxes.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Text);
+            return new DeployJSONConfig(dict);
         }
 
         //var fieldText = new TextBox()

@@ -23,7 +23,8 @@ namespace DevOps.Services.Git
 
         public string GetHash(string branch, string gitDirectory)
         {
-            var command = $"git rev-parse --short {branch}";
+            //var command = $"git rev-parse --short {branch}";
+            var command = @"git log -1 --format="" % h";
             _commandLineRunner.Run(command, out var output, out var error, gitDirectory);
             if (string.IsNullOrEmpty(output)) 
             {
