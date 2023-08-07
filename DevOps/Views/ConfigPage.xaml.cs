@@ -75,6 +75,8 @@ namespace DevOps.Views
 
         private void XStartBtn_Click(object sender, RoutedEventArgs e)
         {
+            var updatedJSONConfig = UpdateTempJSONConfig();
+            _configManager.Update(updatedJSONConfig);
             if (OnNextPage != null) 
             {
                 OnNextPage(PageSequence.GetOnNextPageLog(this.GetType().Name));
