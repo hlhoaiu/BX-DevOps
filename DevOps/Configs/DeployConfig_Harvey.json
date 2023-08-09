@@ -1,18 +1,12 @@
 {
-  "ReleaseBranchName": "release/20230101",
+  "ReleaseBranchName": "release/yyyyMMdd",
   "ProgramGitPath": "C:\\Users\\HIM HO\\source\\repos\\BX-DevOps",
-  "NugetGitPath": "C:\\Users\\HIM HO\\source\\repos\\BX-DevOps",
-  "TargetNugetPath": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\TargetPackagePath",
-  "PackageBasePath": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace",
+  "PackageBasePath": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\PackageWorkplace",
   "JobIds": [ "xxx", "yyy" ],
   "RepoPreviousMergeHash": "123abc",
   "ProgramName": "GenXls",
-  "NugetRepoName": "AS400.Interfaces",
-  "NugetPackageVersion": "v1.11.1",
-  "ProgramCompiledPath": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\FakeCompiled_Release",
-  "CustomPackageBackUpPaths": [
-    "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\CustomBackupPath1"
-  ],
+  "ProgramCompiledPath": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\PackageWorkplace\\FakeCompiled_Release",
+  "CustomPackageBackUpPaths": [],
   "ProductionProgramBasePath": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\Production",
   "NugetConfigs": [
     {

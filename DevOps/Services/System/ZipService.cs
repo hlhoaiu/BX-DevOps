@@ -23,7 +23,14 @@ namespace DevOps.Services.System
         public void Zip(string sourceFolder, string zipPath)
         {
             _logger.Log($"[ZIP] File attempt to zip | FROM: {sourceFolder} | TO: {zipPath}");
-            ZipFile.CreateFromDirectory(sourceFolder, zipPath);
+            try
+            {
+                ZipFile.CreateFromDirectory(sourceFolder, zipPath);
+            }
+            catch (global::System.Exception ex)
+            {
+                _logger.Error($"[ZIP] FROM: {sourceFolder} | TO: {zipPath} | {ex}");
+            }
             if (File.Exists(zipPath))
             {
                 _logger.Log($"[ZIP] File successfully zip | TO: {zipPath}");

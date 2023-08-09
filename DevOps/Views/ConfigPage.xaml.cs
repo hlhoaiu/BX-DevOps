@@ -31,6 +31,7 @@ namespace DevOps.Views
     public partial class ConfigPage : Page, IConfigPage
     {
         private readonly IConfigManager _configManager;
+        private readonly IFieldHelpers _fieldHelpers;
 
         public Action<string> OnBackPage { get; set; }
         public Action<string> OnNextPage { get; set; }
@@ -39,9 +40,11 @@ namespace DevOps.Views
         private DeployConfig _tempDeployConfig;
 
         public ConfigPage(
-            IConfigManager configManager)
+            IConfigManager configManager, 
+            IFieldHelpers fieldHelpers)
         {
             _configManager = configManager;
+            _fieldHelpers = fieldHelpers;
         }
 
         public void Init()
@@ -94,34 +97,13 @@ namespace DevOps.Views
         private void AddOrUpdateFields()
         {
             var deployConfig = _tempDeployConfig == null ? _configManager.GetDeployConfig() : _tempDeployConfig;
-            var configDict = FieldHelpers.ToDict(deployConfig);
+            var configStrDict = _fieldHelpers.ToStrDict(deployConfig);
             var deployJSONConfig = _configManager.GetDeployJSONConfig();
-            var configJSONDict = FieldHelpers.ToDict(deployJSONConfig);
-            foreach (var item in configDict)
+            var configJSONStrDict = _fieldHelpers.ToStrDict(deployJSONConfig);
+            foreach (var item in configStrDict)
             {
-                var isEditable = configJSONDict.ContainsKey(item.Key);
-                if (item.Value is IEnumerable<NugetConfig> nugetConfigs)
-                {
-                    HandleNugetFields(nugetConfigs);
-                }
-                else 
-                {
-                    AddOrUpdateField(item.Key, FieldHelpers.FieldToStr(item.Value), isEditable);
-                }
-            }
-        }
-
-        private void HandleNugetFields(IEnumerable<NugetConfig> nugetConfigs) 
-        {
-            int index = 0;
-            foreach (var nugetConfig in nugetConfigs)
-            {
-                var nugetConfigDict = FieldHelpers.ToDict(nugetConfig);
-                foreach (var item in nugetConfigDict)
-                {
-                    AddOrUpdateField($"{item.Key}_{index}", FieldHelpers.FieldToStr(item.Value), true);
-                }
-                index++;
+                var isEditable = configJSONStrDict.ContainsKey(item.Key);
+                AddOrUpdateField(item.Key, item.Value, isEditable);
             }
         }
 

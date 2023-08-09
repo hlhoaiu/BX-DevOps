@@ -91,6 +91,7 @@ namespace DevOps.Views
             _branchManager.Merge(XSourceBranch.Text, XMergeBranch.Text, XGitDirectory.Text);
             SetFields();
             XStatus.Text = "Status: Merge Success";
+            XLog.ScrollToEnd();
         }
 
         private void XNextBtn_Click(object sender, RoutedEventArgs e)

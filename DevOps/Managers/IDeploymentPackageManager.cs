@@ -2,6 +2,6 @@
 {
     public interface IDeploymentPackageManager
     {
-        void Release();
+        void Generate();
     }
 }

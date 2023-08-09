@@ -86,6 +86,7 @@ namespace DevOps.Views
             XStatus.Text = "Status: Backup Started";
             _backupManager.Backup();
             XStatus.Text = "Status: Backup Success";
+            XLog.ScrollToEnd();
         }
 
         private void XNextBtn_Click(object sender, RoutedEventArgs e)

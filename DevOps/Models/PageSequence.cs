@@ -12,7 +12,6 @@ namespace DevOps.Models
         public static IList<string> Sequence = new List<string> 
         {
             nameof(ConfigPage),
-            nameof(BranchPage),
             nameof(PackagePage),
             nameof(FormPage),
             nameof(BackupPage),
@@ -21,7 +20,6 @@ namespace DevOps.Models
         public static IDictionary<string, string> NameMapping = new Dictionary<string, string>
         {
             { nameof(ConfigPage), "Config Page" },
-            { nameof(BranchPage), "Branch Page" },
             { nameof(PackagePage), "Package Page" },
             { nameof(FormPage), "Form Page" },
             { nameof(BackupPage), "Backup Page" },

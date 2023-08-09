@@ -2,6 +2,6 @@
 {
     public interface IDeployManager
     {
-        void Deploy();
+        void DeployAndRelease();
     }
 }

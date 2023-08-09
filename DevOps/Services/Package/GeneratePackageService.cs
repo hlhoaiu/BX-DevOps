@@ -51,7 +51,7 @@ namespace DevOps.Services.System
             _logger.Log("Start to prepare package folders");
             Directory.CreateDirectory(config.PackageCompilePath);
             Directory.CreateDirectory(config.PackageDiffPath);
-            Directory.CreateDirectory(Path.GetDirectoryName(config.PackageSourceNugetZipFullPath));
+            Directory.CreateDirectory(Path.GetDirectoryName(config.PackageSourceZipFullPath));
         }
 
         private void ZipSourceFolder(DeployConfig config) 
@@ -62,11 +62,14 @@ namespace DevOps.Services.System
             var gitDirectory = config.ProgramGitPath;
             _gitZipService.Zip(fileFullPath, gitHead, gitDirectory);
 
-            // TODO: Loop More than one Nuget Package
-            fileFullPath = config.PackageSourceNugetZipFullPath;
-            gitHead = CommonConst.Master;
-            gitDirectory = config.NugetGitPath;
-            _gitZipService.Zip(fileFullPath, gitHead, gitDirectory);
+            foreach (var nugetConfig in config.NugetConfigs)
+            {
+                if (nugetConfig.IsEmpty) continue;
+                fileFullPath = nugetConfig.PackageSourceNugetZipFullPath;
+                gitHead = CommonConst.Master;
+                gitDirectory = nugetConfig.NugetGitPath;
+                _gitZipService.Zip(fileFullPath, gitHead, gitDirectory);
+            }
         }
 
         private void GenerateWinMergeReport(string oldHash, string gitDirectory) 

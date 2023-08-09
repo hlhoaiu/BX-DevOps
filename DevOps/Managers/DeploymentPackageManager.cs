@@ -25,7 +25,7 @@ namespace DevOps.Managers
             _deployConfigModel = deployConfigModel;
         }
 
-        public void Release()
+        public void Generate()
         {
             var config = _deployConfigModel.GetDeployConfig();
             var packagePath = Path.Combine(config.PackageBasePath, $"{config.PackageName}.zip");
@@ -33,7 +33,7 @@ namespace DevOps.Managers
             {
                 _generatePackageService.Generate();
             }
-            var backupDirectories = new string[] { config.PackageReleasePath }.Concat(config.CustomPackageBackUpPaths);
+            var backupDirectories = config.CustomPackageBackUpPaths;
             _copyPackageService.Copy(packagePath, backupDirectories);
         }
     }

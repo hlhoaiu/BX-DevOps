@@ -19,6 +19,7 @@ namespace DevOps.Modules
         {
             builder.RegisterType<MLogger>().As<ILogger>().InstancePerLifetimeScope();
             builder.RegisterType<CommandLineRunner>().As<ICommandLineRunner>().InstancePerLifetimeScope();
+            builder.RegisterType<FieldHelpers>().As<IFieldHelpers>().InstancePerLifetimeScope();
 
             builder.RegisterType<JSONSerializer>().As<ISerializer>().InstancePerLifetimeScope();
             builder.RegisterType<RetrieveJSONConfigService>().As<IRetrieveJSONConfigService>().InstancePerLifetimeScope();

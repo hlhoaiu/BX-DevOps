@@ -83,8 +83,9 @@ namespace DevOps.Views
         private void XExecuteBtn_Click(object sender, RoutedEventArgs e)
         {
             XStatus.Text = "Status: Release Started";
-            _deploymentPackageManager.Release();
+            _deploymentPackageManager.Generate();
             XStatus.Text = "Status: Release Success";
+            XLog.ScrollToEnd();
         }
 
         private void XNextBtn_Click(object sender, RoutedEventArgs e)

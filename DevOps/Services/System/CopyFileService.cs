@@ -1,6 +1,7 @@
 ﻿using DevOps.Logger;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace DevOps.Services.System
 {
@@ -17,12 +18,19 @@ namespace DevOps.Services.System
         public void Copy(string filePath, IEnumerable<string> targetDirectories) 
         {
             var fileName = Path.GetFileName(filePath);
-            foreach (var directory in targetDirectories)
+            foreach (var directory in targetDirectories.Where(x=>!string.IsNullOrWhiteSpace(x)))
             {
                 Directory.CreateDirectory(directory);
                 var targetPath = Path.Combine(directory, fileName);
                 _logger.Log($"[COPY] File attempt to copy FROM: {filePath} | TO: {targetPath}");
-                File.Copy(filePath, targetPath, true);
+                try
+                {
+                    File.Copy(filePath, targetPath, true);
+                }
+                catch (global::System.Exception ex)
+                {
+                    _logger.Error($"[COPY] FROM: {filePath} | TO: {targetPath} | {ex}");
+                }
                 if (File.Exists(targetPath))
                 {
                     _logger.Log($"[COPY] File successfully copy to {targetPath}");

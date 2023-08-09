@@ -12,19 +12,14 @@ namespace DevOps.Models.Config
         public DateTime CurrentDateTime { get; }
         public string ReleaseBranchName { get; } //release/yyyyMMdd
         public string ProgramGitPath { get; }
-        public string NugetGitPath { get; }
-        public string TargetNugetPath { get; } // C:\ProgramSource\GenXls\packages
         public string PackageBasePath { get; } // C:\Users\itdxxx\Desktop
         public IEnumerable<string> JobIds { get; } = Enumerable.Empty<string>(); // xxxx+xxxx
         public string RepoLatestHash { get; }
         public string RepoPreviousMergeHash { get; }
         public string ProgramName { get; } // GenXls
-        public string NugetRepoName { get; } //AS400.Interfaces
-        public string NugetPackageVersion { get; } //v1.11.1
         public string PackageName { get; }// <ProgramName>.<CombinedJobIds>.<RepoLatestHash>.<CurrentDateTime>
         public string ProgramCompiledPath { get; } // C:\ProgramSource\GenXls\GenXls\bin\Debug
         public string PackageSourceZipFullPath { get; } // <PackageBasePath>\<PackageName>\source\<ProgramName>.<RepoLatestHash>.zip
-        public string PackageSourceNugetZipFullPath { get; } // <PackageBasePath>\<PackageName>\source\<NugetRepoName>.<NugetPackVersion>.zip
         public string PackageCompilePath { get; } // <PackageBasePath>\<PackageName>\compiled
         public string PackageDiffPath { get; } // <PackageBasePath>\<PackageName>\diff
         public IEnumerable<string> CustomPackageBackUpPaths { get; } = Enumerable.Empty<string>();
@@ -35,26 +30,21 @@ namespace DevOps.Models.Config
         public string ProductionBackUpFullPath { get; } // <ProductionBackupBasePath>\<ProgramName>.<CurrentDateTime>.zip
         public string DiffHTMLName { get; } // <ProgramName>,<RepoPreviousMergeHash>_<RepoLatestHash>.html
         public string DeploymentFormName { get; } // <ProgramName>.<RepoLatestHash>.docx
-        public IEnumerable<NugetConfig> NugetConfigs { get; set; }
+        public IEnumerable<NugetConfig> NugetConfigs { get; set; } = Enumerable.Empty<NugetConfig>();
 
         public DeployConfig(DeployJSONConfig deployConfig, string repoLatestHash) 
         {
             CurrentDateTime = DateTime.Now;
             ReleaseBranchName = deployConfig.ReleaseBranchName;
             ProgramGitPath = deployConfig.ProgramGitPath;
-            NugetGitPath = deployConfig.NugetGitPath;
-            TargetNugetPath = deployConfig.TargetNugetPath;
             PackageBasePath = deployConfig.PackageBasePath;
             JobIds = deployConfig.JobIds;
             RepoLatestHash = repoLatestHash;
             RepoPreviousMergeHash = deployConfig.RepoPreviousMergeHash;
             ProgramName = deployConfig.ProgramName;
-            NugetRepoName = deployConfig.NugetRepoName;
-            NugetPackageVersion = deployConfig.NugetPackageVersion;
             PackageName = $"{ProgramName}.{string.Join("+", JobIds)}.{repoLatestHash}.{CurrentDateTime.ToString(CommonConst.DateTimeFormat)}";
             ProgramCompiledPath = deployConfig.ProgramCompiledPath;
             PackageSourceZipFullPath = Path.Combine(PackageBasePath, PackageName, "source", $"{ProgramName}.{RepoLatestHash}.zip");
-            PackageSourceNugetZipFullPath = Path.Combine(PackageBasePath, PackageName, "source", $"{NugetRepoName}.{NugetPackageVersion}.zip");
             PackageCompilePath = Path.Combine(PackageBasePath, PackageName, "compiled");
             PackageDiffPath = $@"{PackageBasePath}\{PackageName}\diff";
             PackageDiffPath = Path.Combine(PackageBasePath, PackageName, "diff");
@@ -75,14 +65,10 @@ namespace DevOps.Models.Config
             {
                 ReleaseBranchName = ReleaseBranchName,
                 ProgramGitPath = ProgramGitPath,
-                NugetGitPath = NugetGitPath,
-                TargetNugetPath = TargetNugetPath,
                 PackageBasePath = PackageBasePath,
                 JobIds = JobIds,
                 RepoPreviousMergeHash = RepoPreviousMergeHash,
                 ProgramName = ProgramName,
-                NugetRepoName = NugetRepoName,
-                NugetPackageVersion = NugetPackageVersion,
                 ProgramCompiledPath = ProgramCompiledPath,
                 CustomPackageBackUpPaths = CustomPackageBackUpPaths,
                 ProductionProgramBasePath = ProductionProgramBasePath,
@@ -98,6 +84,11 @@ namespace DevOps.Models.Config
         public string NugetRepoName { get; } //AS400.Interfaces
         public string NugetPackageVersion { get; } //v1.11.1
         public string PackageSourceNugetZipFullPath { get; } // <PackageBasePath>\<PackageName>\source\<NugetRepoName>.<NugetPackVersion>.zip
+        public bool IsEmpty =>
+            string.IsNullOrWhiteSpace(NugetGitPath) ||
+            string.IsNullOrWhiteSpace(TargetNugetPath) ||
+            string.IsNullOrWhiteSpace(NugetRepoName) ||
+            string.IsNullOrWhiteSpace(NugetPackageVersion);
 
         public NugetConfig(NugetJSONConfig jsonConfig, string packageSourceNugetZipFullPath) 
         {
