@@ -28,10 +28,11 @@
                         <RowDefinition Height="*" MinHeight="26"/>
                         <RowDefinition Height="*" MinHeight="26"/>
                         <RowDefinition Height="*" MinHeight="26"/>
+                        <RowDefinition Height="*" MinHeight="26"/>
                     </Grid.RowDefinitions>
                     <DockPanel Grid.Row="0">
                         <TextBlock Text="Form Name" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
-                        <TextBox Name="XDeploymentFormName" Text="xxx" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" VerticalAlignment="Center"></TextBox>
+                        <TextBox Name="XDeploymentFormName" Text="xxx" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" VerticalAlignment="Center" IsReadOnly="True" Background="LightGray"></TextBox>
                     </DockPanel>
                     <DockPanel Grid.Row="1">
                         <TextBlock Text="Excel Templates" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
@@ -45,6 +46,8 @@
                         <TextBlock Text="New Features" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
                         <TextBox Name="XNewFeatures" Text="field your features here" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" AcceptsReturn="True" VerticalAlignment="Center"></TextBox>
                     </DockPanel>
+                    <TextBlock Grid.Row="4" Text="Fill in Excel Template, Previous and New Features before generating implementation form&#x0d;&#x0d;After generated, still need to manually update what files are different, update format or color and remove useless fields." 
+                               FontSize="14" Padding="15,0,15,0" Foreground="Red" VerticalAlignment="Center" TextWrapping="WrapWithOverflow"></TextBlock>
                 </Grid>
             </ScrollViewer>
         </DockPanel>

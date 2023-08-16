@@ -8,12 +8,7 @@ namespace DevOps.Helpers
         public static string GetDeployConfigFileText() 
         {
             var configDirectory = PathProvider.ConfigDirectory;
-
-            if (!Directory.Exists(configDirectory))
-            {
-                Directory.CreateDirectory(configDirectory);
-            }
-
+            Directory.CreateDirectory(configDirectory);
             var customConfigPath = Properties.Settings.Default.CustomDeployConfigPath;
             var configPath = string.IsNullOrWhiteSpace(customConfigPath) ?
                             PathProvider.DeployConfigPath :
@@ -45,12 +40,7 @@ namespace DevOps.Helpers
         public static Document GetImplFormDocument(Application wordApp) 
         {
             var templateDirectory = PathProvider.TemplateDirectory;
-
-            if (!Directory.Exists(templateDirectory))
-            {
-                Directory.CreateDirectory(templateDirectory);
-            }
-
+            Directory.CreateDirectory(templateDirectory);
             var implFormPath = PathProvider.ImplFormPath;
             var sourceConfigPath = PathProvider.TemplateImplFormPath;
             File.Copy(sourceConfigPath, implFormPath, true);

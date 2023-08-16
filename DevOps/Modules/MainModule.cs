@@ -46,6 +46,7 @@ namespace DevOps.Modules
             builder.RegisterType<MoveDirectoryService>().As<IMoveDirectoryService>().InstancePerLifetimeScope();
             builder.RegisterType<MoveFileService>().As<IMoveFileService>().InstancePerLifetimeScope();
             builder.RegisterType<CopyFileService>().As<ICopyFileService>().InstancePerLifetimeScope();
+            builder.RegisterType<OpenDirectoryService>().As<IOpenDirectoryService>().InstancePerLifetimeScope();
             builder.RegisterType<ZipService>().As<IZipService>().InstancePerLifetimeScope();
 
             //WinMerge

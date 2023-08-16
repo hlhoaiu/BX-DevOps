@@ -1,6 +1,7 @@
 ﻿using DevOps.Logger;
 using DevOps.Managers;
 using DevOps.Models;
+using DevOps.Models.Config;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,13 +29,16 @@ namespace DevOps.Views
     {
         private readonly ILogger _logger;
         private readonly IImplFormManager _implFormManager;
+        private readonly IDeployConfigModel _deployConfigModel;
 
         public FormPage(
-            ILogger logger, 
-            IImplFormManager implFormManager)
+            ILogger logger,
+            IImplFormManager implFormManager,
+            IDeployConfigModel deployConfigModel)
         {
             _logger = logger;
             _implFormManager = implFormManager;
+            _deployConfigModel = deployConfigModel;
         }
 
         public Action<string> OnBackPage { get; set; }
@@ -66,6 +70,7 @@ namespace DevOps.Views
         {
             XStatus.Text = "Status: Init Success";
             XTitle.Text = PageSequence.NameMapping[this.GetType().Name];
+            XDeploymentFormName.Text = _deployConfigModel.GetDeployConfig().DeploymentFormName;
         }
 
         private void OnLogUpdated(string msg)
@@ -83,6 +88,8 @@ namespace DevOps.Views
 
         private void XExecuteBtn_Click(object sender, RoutedEventArgs e)
         {
+            var result = MessageBox.Show("Confirm to generate Implemenation Form?", "Reminder", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.No) return;
             XStatus.Text = "Status: Release Started";
             var fieldsFromUser = new Dictionary<string, string>() 
             {
@@ -97,6 +104,8 @@ namespace DevOps.Views
 
         private void XNextBtn_Click(object sender, RoutedEventArgs e)
         {
+            var result = MessageBox.Show("Have you check implementation form information are all correct?", "Reminder", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.No) return;
             if (OnNextPage != null)
             {
                 OnNextPage(PageSequence.GetOnNextPageLog(this.GetType().Name));

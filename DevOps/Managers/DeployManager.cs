@@ -11,17 +11,20 @@ namespace DevOps.Managers
         private readonly IDeployConfigModel _deployConfigModel;
         private readonly ICopyFileService _copyFileService;
         private readonly IZipService _zipService;
+        private readonly IOpenDirectoryService _openDirectoryService;
 
         public DeployManager(
             IWinMergeCompareService winMergeCompareService,
             IDeployConfigModel deployConfigModel,
-            ICopyFileService copyPackageService, 
-            IZipService zipService)
+            ICopyFileService copyPackageService,
+            IZipService zipService,
+            IOpenDirectoryService openDirectoryService)
         {
             _winMergeCompareService = winMergeCompareService;
             _deployConfigModel = deployConfigModel;
             _copyFileService = copyPackageService;
             _zipService = zipService;
+            _openDirectoryService = openDirectoryService;
         }
 
         public void DeployAndRelease()
@@ -39,6 +42,7 @@ namespace DevOps.Managers
             _copyFileService.Copy(packagePath, releaseDirectories);
             var formPath = Path.Combine(config.PackageBasePath, config.DeploymentFormName);
             _copyFileService.Copy(formPath, releaseDirectories);
+            _openDirectoryService.Open(releaseDirectories);
         }
 
         private void Deploy(DeployConfig config) 

@@ -1,5 +1,6 @@
 ﻿using DevOps.Models.Config;
 using DevOps.Services.System;
+using System.IO;
 
 namespace DevOps.Managers
 {
@@ -7,13 +8,16 @@ namespace DevOps.Managers
     {
         private readonly IDeployConfigModel _deployConfigModel;
         private readonly IZipService _zipService;
+        private readonly IOpenDirectoryService _openDirectoryService;
 
         public BackupManager(
             IDeployConfigModel deployConfigModel,
-            IZipService zipService)
+            IZipService zipService,
+            IOpenDirectoryService openDirectoryService)
         {
             _deployConfigModel = deployConfigModel;
             _zipService = zipService;
+            _openDirectoryService = openDirectoryService;
         }
 
         public void Backup()
@@ -22,6 +26,8 @@ namespace DevOps.Managers
             var sourceFolder = config.ProductionProgramPath;
             var zipPath = config.ProductionBackUpFullPath;
             _zipService.Zip(sourceFolder, zipPath);
+            var zipDirectory = Path.GetDirectoryName(zipPath);
+            _openDirectoryService.Open(zipDirectory);
         }
     }
 }

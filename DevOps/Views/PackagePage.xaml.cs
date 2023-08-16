@@ -82,6 +82,8 @@ namespace DevOps.Views
 
         private void XExecuteBtn_Click(object sender, RoutedEventArgs e)
         {
+            var result = MessageBox.Show("Have you merged everything and checkout to production branch and rebuilt solution with Release mode?", "Reminder", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.No) return;
             XStatus.Text = "Status: Release Started";
             _deploymentPackageManager.Generate();
             XStatus.Text = "Status: Release Success";

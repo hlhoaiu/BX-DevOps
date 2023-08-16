@@ -43,7 +43,7 @@ namespace DevOps.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\Logs")]
         public string LogDirectory {
             get {
                 return ((string)(this["LogDirectory"]));

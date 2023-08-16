@@ -83,6 +83,8 @@ namespace DevOps.Views
 
         private void XExecuteBtn_Click(object sender, RoutedEventArgs e)
         {
+            var result = MessageBox.Show("Have you disabled task scheduler in production?", "Reminder", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.No) return;
             XStatus.Text = "Status: Backup Started";
             _backupManager.Backup();
             XStatus.Text = "Status: Backup Success";
