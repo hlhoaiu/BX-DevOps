@@ -1,16 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DevOps.Helpers;
+using DevOps.Logger;
 
 namespace DevOps.Services.WinMerge
 {
     public class WinMergeCompareService : IWinMergeCompareService
     {
-        public void Compare()
+        private readonly ILogger _logger;
+        private readonly ICommandLineRunner _commandLineRunner;
+
+        public WinMergeCompareService(
+            ILogger logger,
+            ICommandLineRunner commandLineRunner)
         {
-            throw new NotImplementedException();
+            _logger = logger;
+            _commandLineRunner = commandLineRunner;
+        }
+
+        public void Compare(string path1, string path2)
+        {
+            var command = @$"WinMergeU /r ""{path1}"" ""{path2}""";
+            _commandLineRunner.Run(command, out var output, out var error, Properties.Settings.Default.WinMergeDirectory);
         }
     }
 }

@@ -24,16 +24,26 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <Grid Name="XFieldGrid">
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition Height="*" MinHeight="26"/>
+                        <RowDefinition Height="*" MinHeight="26"/>
+                        <RowDefinition Height="*" MinHeight="26"/>
+                        <RowDefinition Height="*" MinHeight="26"/>
                     </Grid.RowDefinitions>
-                    <DockPanel Grid.Row="0" Height="26">
+                    <DockPanel Grid.Row="0">
                         <TextBlock Text="Form Name" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
                         <TextBox Name="XDeploymentFormName" Text="xxx" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" VerticalAlignment="Center"></TextBox>
                     </DockPanel>
-                    <DockPanel Grid.Row="1" Height="26">
-                        <TextBlock Text="Last Deployed Items" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
-                        <TextBox Name="XLastDeployedItems" Text="field your item here" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" VerticalAlignment="Center"></TextBox>
+                    <DockPanel Grid.Row="1">
+                        <TextBlock Text="Excel Templates" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
+                        <TextBox Name="XExcelTemplates" Text="field your templates here" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" AcceptsReturn="True" VerticalAlignment="Center"></TextBox>
+                    </DockPanel>
+                    <DockPanel Grid.Row="2">
+                        <TextBlock Text="Previous Features" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
+                        <TextBox Name="XPreviousFeatures" Text="field your features here" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" AcceptsReturn="True" VerticalAlignment="Center"></TextBox>
+                    </DockPanel>
+                    <DockPanel Grid.Row="3">
+                        <TextBlock Text="New Features" FontSize="14" Padding="5,0,5,0" VerticalAlignment="Center"></TextBlock>
+                        <TextBox Name="XNewFeatures" Text="field your features here" FontSize="14" Padding="5,0,5,0" Margin="1,1,1,1" AcceptsReturn="True" VerticalAlignment="Center"></TextBox>
                     </DockPanel>
                 </Grid>
             </ScrollViewer>
@@ -56,7 +66,7 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Button Name ="XBackBtn" Content="Back" Click="XBackBtn_Click" Grid.Column="0" Margin="15,0,15,0" Padding="5" FontSize="16"/>
-                <Button Name ="XExecuteBtn" Content="Gen&amp;Release" Click="XExecuteBtn_Click" Grid.Column="1" Margin="15,0,15,0" Padding="5" FontSize="16"/>
+                <Button Name ="XExecuteBtn" Content="Generate" Click="XExecuteBtn_Click" Grid.Column="1" Margin="15,0,15,0" Padding="5" FontSize="16"/>
                 <Button Name ="XNextBtn" Content="Next" Click="XNextBtn_Click" Grid.Column="2" Margin="15,0,15,0" Padding="5" FontSize="16"/>
             </Grid>
         </DockPanel>

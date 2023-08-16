@@ -2,6 +2,6 @@
 {
     public interface IGitZipService
     {
-        void Zip(string fileFullPath, string gitHead, string gitDirectory);
+        void Zip(string fileFullPath, string gitHash, string gitDirectory);
     }
 }

@@ -43,6 +43,7 @@ namespace DevOps.Modules
             builder.RegisterType<GitDiffService>().As<IGitDiffService>().InstancePerLifetimeScope();
 
             //System
+            builder.RegisterType<MoveDirectoryService>().As<IMoveDirectoryService>().InstancePerLifetimeScope();
             builder.RegisterType<MoveFileService>().As<IMoveFileService>().InstancePerLifetimeScope();
             builder.RegisterType<CopyFileService>().As<ICopyFileService>().InstancePerLifetimeScope();
             builder.RegisterType<ZipService>().As<IZipService>().InstancePerLifetimeScope();

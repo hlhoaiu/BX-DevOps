@@ -49,5 +49,32 @@ namespace DevOps.Properties {
                 return ((string)(this["LogDirectory"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files (x86)\\WinMerge")]
+        public string WinMergeDirectory {
+            get {
+                return ((string)(this["WinMergeDirectory"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\itdhvh\\Desktop\\Work\\GenXlsWorkplace\\DiffReport\\diff.html")]
+        public string GitDiffReportWorkingPath {
+            get {
+                return ((string)(this["GitDiffReportWorkingPath"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ImplementationFormTemplate.docx")]
+        public string ImplFormFileName {
+            get {
+                return ((string)(this["ImplFormFileName"]));
+            }
+        }
     }
 }

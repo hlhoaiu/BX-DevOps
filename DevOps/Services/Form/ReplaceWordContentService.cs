@@ -1,11 +1,8 @@
 ﻿using DevOps.Helpers;
 using DevOps.Logger;
-using DevOps.Models.Config;
 using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace DevOps.Services.Form
 {
@@ -26,18 +23,24 @@ namespace DevOps.Services.Form
                 return;
             }
 
-            var fileFullPath = PathHelper.TemplateImplFormPath;
-            _logger.Log($"Started to replace string in Word Document. Total string to replace: {replaceDict.Count}. File Path: {fileFullPath}");
+            _logger.Log($"Started to replace string in Word Document. Total string to replace: {replaceDict.Count}. File Path: {PathProvider.ImplFormPath}");
             Application wordApp = new Application { Visible = false};
+            Document wordDoc = FileHelper.GetImplFormDocument(wordApp);
             try
             {
-                Document wordDoc = wordApp.Documents.Open(fileFullPath, ReadOnly: false, Visible: true);
                 foreach (var item in replaceDict)
                 {
-                    FindAndReplace(wordApp, item.Key, item.Value);
+                    FindAndInsert(wordDoc, item.Key, item.Value);
+                    //if (item.Value.Length > 200) 
+                    //{
+                    //    FindAndInsert(wordDoc, item.Key, item.Value);
+                    //} 
+                    //else 
+                    //{
+                    //    FindAndReplace(wordApp, item.Key, item.Value);
+                    //}
                 }
                 wordDoc.SaveAs(saveAsPath);
-                wordDoc.Close();
                 _logger.Log($"All strings were replaced in Word Document. File saved to: {saveAsPath}");
             }
             catch (global::System.Exception ex)
@@ -46,8 +49,21 @@ namespace DevOps.Services.Form
             }
             finally 
             {
+                wordDoc.Close();
                 wordApp.Quit();
                 GC.Collect();
+            }
+        }
+
+        private void FindAndInsert(Document doc, object findText, string replaceWithText)
+        {
+            Microsoft.Office.Interop.Word.Range range = doc.Content;
+            range.Find.Execute(findText);
+            // Define new range 
+            //range = doc.Range(range.End + 1, range.End + 1);
+            if (range.Text != null) 
+            {
+                range.Text = replaceWithText;
             }
         }
 
@@ -69,7 +85,6 @@ namespace DevOps.Services.Form
             object visible = true;
             object replace = 2;
             object wrap = 1;
-            //execute find and replace
             doc.Selection.Find.Execute(ref findText, ref matchCase, ref matchWholeWord,
                 ref matchWildCards, ref matchSoundsLike, ref matchAllWordForms, ref forward, ref wrap, ref format, ref replaceWithText, ref replace,
                 ref matchKashida, ref matchDiacritics, ref matchAlefHamza, ref matchControl);

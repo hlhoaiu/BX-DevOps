@@ -1,18 +1,13 @@
 ﻿using DevOps.Models.Config;
 using DevOps.Services.System;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DevOps.Managers
 {
     public class DeploymentPackageManager : IDeploymentPackageManager
     {
         private readonly IGeneratePackageService _generatePackageService;
-        private readonly ICopyFileService _copyPackageService;
+        private readonly ICopyFileService _copyFileService;
         private readonly IDeployConfigModel _deployConfigModel;
 
         public DeploymentPackageManager(
@@ -21,7 +16,7 @@ namespace DevOps.Managers
             IDeployConfigModel deployConfigModel)
         {
             _generatePackageService = generatePackageService;
-            _copyPackageService = copyPackageService;
+            _copyFileService = copyPackageService;
             _deployConfigModel = deployConfigModel;
         }
 
@@ -34,7 +29,7 @@ namespace DevOps.Managers
                 _generatePackageService.Generate();
             }
             var backupDirectories = config.CustomPackageBackUpPaths;
-            _copyPackageService.Copy(packagePath, backupDirectories);
+            _copyFileService.Copy(packagePath, backupDirectories);
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IGitDiffService
     {
-        void Diff(string oldHash, string newHash, string gitDirectory);
+        void Diff(string oldHash, string newHash, string gitDirectory, bool isGenDiffReport);
     }
 }

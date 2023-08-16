@@ -84,7 +84,13 @@ namespace DevOps.Views
         private void XExecuteBtn_Click(object sender, RoutedEventArgs e)
         {
             XStatus.Text = "Status: Release Started";
-            _implFormManager.Generate();
+            var fieldsFromUser = new Dictionary<string, string>() 
+            {
+                { nameof(XExcelTemplates).Substring(1),  XExcelTemplates.Text},
+                { nameof(XPreviousFeatures).Substring(1),  XPreviousFeatures.Text},
+                { nameof(XNewFeatures).Substring(1),  XNewFeatures.Text}
+            };
+            _implFormManager.Generate(fieldsFromUser);
             XStatus.Text = "Status: Release Success";
             XLog.ScrollToEnd();
         }

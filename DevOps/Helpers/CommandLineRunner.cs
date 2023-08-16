@@ -29,7 +29,7 @@ namespace DevOps.Helpers
                     RedirectStandardError = true,
                     RedirectStandardInput = true,
                     Arguments = "/c " + command,
-                    CreateNoWindow = false,
+                    CreateNoWindow = true,
                     WorkingDirectory = directory ?? string.Empty,
                 }
             };

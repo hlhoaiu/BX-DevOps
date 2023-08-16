@@ -1,5 +1,4 @@
 ﻿using DevOps.Logger;
-using System.Collections.Generic;
 using System.IO;
 
 namespace DevOps.Services.System
@@ -20,6 +19,7 @@ namespace DevOps.Services.System
             Directory.CreateDirectory(targetDirectory);
             var targetPath = Path.Combine(targetDirectory, fileName);
             _logger.Log($"[MOVE] File attempt to move FROM: {filePath} | TO: {targetPath}");
+
             try
             {
                 File.Move(filePath, targetPath, true);
@@ -28,6 +28,7 @@ namespace DevOps.Services.System
             {
                 _logger.Error($"[MOVE] FROM: {filePath} | TO: {targetPath} | {ex}");
             }
+
             if (File.Exists(targetPath))
             {
                 _logger.Log($"[MOVE] File successfully move to {targetPath}");

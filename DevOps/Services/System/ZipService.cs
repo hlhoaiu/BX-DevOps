@@ -1,12 +1,6 @@
 ﻿using DevOps.Logger;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DevOps.Services.System
 {
@@ -34,6 +28,23 @@ namespace DevOps.Services.System
             if (File.Exists(zipPath))
             {
                 _logger.Log($"[ZIP] File successfully zip | TO: {zipPath}");
+            }
+        }
+
+        public void UnZip(string sourceZipPath, string unZipToPath)
+        {
+            _logger.Log($"[UNZIP] File attempt to zip | FROM: {sourceZipPath} | TO: {unZipToPath}");
+            try
+            {
+                ZipFile.ExtractToDirectory(sourceZipPath, unZipToPath);
+            }
+            catch (global::System.Exception ex)
+            {
+                _logger.Error($"[UNZIP] FROM: {sourceZipPath} | TO: {unZipToPath} | {ex}");
+            }
+            if (File.Exists(unZipToPath))
+            {
+                _logger.Log($"[UNZIP] File successfully zip | TO: {unZipToPath}");
             }
         }
     }

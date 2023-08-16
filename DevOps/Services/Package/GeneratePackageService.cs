@@ -2,14 +2,7 @@
 using DevOps.Models;
 using DevOps.Models.Config;
 using DevOps.Services.Git;
-using DevOps.Services.System;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DevOps.Services.System
 {
@@ -20,19 +13,25 @@ namespace DevOps.Services.System
         private readonly IZipService _zipService;
         private readonly IGitDiffService _gitDiffService;
         private readonly ILogger _logger;
+        private readonly IMoveFileService _moveFileService;
+        private readonly IMoveDirectoryService _moveDirectoryService;
 
         public GeneratePackageService(
             IDeployConfigModel deployConfigModel,
             IGitZipService gitZipService,
             IZipService zipService,
             IGitDiffService gitDiffService,
-            ILogger logger)
+            ILogger logger,
+            IMoveFileService moveFileService, 
+            IMoveDirectoryService moveDirectoryService)
         {
             _deployConfigModel = deployConfigModel;
             _gitZipService = gitZipService;
             _zipService = zipService;
             _gitDiffService = gitDiffService;
             _logger = logger;
+            _moveFileService = moveFileService;
+            _moveDirectoryService = moveDirectoryService;
         }
 
         public void Generate()
@@ -40,7 +39,7 @@ namespace DevOps.Services.System
             var config = _deployConfigModel.GetDeployConfig();
             CreateFolder(config);
             ZipSourceFolder(config);
-            GenerateWinMergeReport(config.RepoPreviousMergeHash, config.ProgramGitPath);
+            GenerateWinMergeReport(config.RepoPreviousMergeHash, config.ProgramGitPath, config.PackageDiffPath);
             CompileProgram();
             ZipCompiledProgram(config.ProgramCompiledPath, config.PackageCompilePath);
             ZipWholePackage(config.PackageBasePath, config.PackageName);
@@ -72,11 +71,18 @@ namespace DevOps.Services.System
             }
         }
 
-        private void GenerateWinMergeReport(string oldHash, string gitDirectory) 
+        private void GenerateWinMergeReport(string oldHash, string gitDirectory, string packageDiffPath) 
         {
             _logger.Log($"Start to generate WinMerge report into package");
             var newHash = CommonConst.Production;
-            _gitDiffService.Diff(oldHash, newHash, gitDirectory);
+            var isGenDiffReport = true;
+            _gitDiffService.Diff(oldHash, newHash, gitDirectory, isGenDiffReport);
+            var diffReportOutputPath = Properties.Settings.Default.GitDiffReportWorkingPath;
+            var diffReportDirectory = Path.GetDirectoryName(diffReportOutputPath);
+            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(diffReportOutputPath);
+            var diffDetailsFolderName = $"{fileNameWithoutExtension}.files";
+            _moveFileService.Move(diffReportOutputPath, packageDiffPath);
+            _moveDirectoryService.Move(Path.Combine(diffReportDirectory, diffDetailsFolderName), Path.Combine(packageDiffPath, diffDetailsFolderName));
         }
 
         private void CompileProgram() 

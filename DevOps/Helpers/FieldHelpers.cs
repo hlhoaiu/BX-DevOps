@@ -91,7 +91,7 @@ namespace DevOps.Helpers
             }
         }
 
-        private void MergeDict(IDictionary<string, string> baseDict, IDictionary<string, string> mergeDict)
+        public void MergeDict(IDictionary<string, string> baseDict, IDictionary<string, string> mergeDict)
         {
             foreach (var nugetItem in mergeDict)
             {

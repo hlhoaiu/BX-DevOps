@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows.Media;
 
 namespace DevOps.Models.Config
 {
@@ -46,7 +44,6 @@ namespace DevOps.Models.Config
             ProgramCompiledPath = deployConfig.ProgramCompiledPath;
             PackageSourceZipFullPath = Path.Combine(PackageBasePath, PackageName, "source", $"{ProgramName}.{RepoLatestHash}.zip");
             PackageCompilePath = Path.Combine(PackageBasePath, PackageName, "compiled");
-            PackageDiffPath = $@"{PackageBasePath}\{PackageName}\diff";
             PackageDiffPath = Path.Combine(PackageBasePath, PackageName, "diff");
             CustomPackageBackUpPaths = deployConfig.CustomPackageBackUpPaths;
             ProductionProgramBasePath = deployConfig.ProductionProgramBasePath;

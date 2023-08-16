@@ -1,13 +1,5 @@
-﻿using DevOps.Logger;
-using DevOps.Models.Config;
+﻿using DevOps.Models.Config;
 using DevOps.Services.System;
-using DevOps.Views;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DevOps.Managers
 {

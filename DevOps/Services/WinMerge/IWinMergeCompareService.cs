@@ -2,6 +2,6 @@
 {
     public interface IWinMergeCompareService
     {
-        void Compare();
+        void Compare(string path1, string path2);
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DevOps.Models
+﻿namespace DevOps.Models
 {
     public static class CommonConst
     {

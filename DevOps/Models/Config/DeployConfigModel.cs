@@ -1,11 +1,6 @@
-﻿using DevOps.Services.Config;
+﻿using DevOps.Helpers;
+using DevOps.Services.Config;
 using DevOps.Services.Git;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace DevOps.Models.Config
 {
@@ -56,6 +51,13 @@ namespace DevOps.Models.Config
             var latestHash = _gitHashService.GetHash(CommonConst.Production, _deployJSONConfig.ProgramGitPath);
             _deployConfig = new DeployConfig(updatedConfig, latestHash);
             return true;
+        }
+
+        public void ResetFromTemplate()
+        {
+            FileHelper.DeleteCachedConfigFile();
+            _deployConfig = null;
+            _deployJSONConfig = null;
         }
     }
 }

@@ -1,17 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DevOps.Helpers;
+using DevOps.Logger;
+using System.IO;
 
 namespace DevOps.Services.WinMerge
 {
     public class WinMergeReportService : IWinMergeReportService
     {
-        public void GenerateReport()
+        private readonly ILogger _logger;
+        private readonly ICommandLineRunner _commandLineRunner;
+
+        public WinMergeReportService(
+            ILogger logger, 
+            ICommandLineRunner commandLineRunner)
         {
-            // check can we directly generate the report through command
-            throw new NotImplementedException();
+            _logger = logger;
+            _commandLineRunner = commandLineRunner;
+        }
+
+        public void GenerateReport(string path1, string path2, string reportOutputDirectory, string reportFileName)
+        {
+            var reportFullPath = Path.Combine(reportOutputDirectory, reportFileName);
+            var command = @$"WinMergeU /r ""{path1}"" ""{path2}"" /or ""{reportFullPath}""";
+            _commandLineRunner.Run(command, out var output, out var error, Properties.Settings.Default.WinMergeDirectory);
+            if (File.Exists(reportFullPath))
+            {
+                _logger.Log($"[WinMergeReport] Successfully output report | TO: {reportFullPath}");
+            }
         }
     }
 }
