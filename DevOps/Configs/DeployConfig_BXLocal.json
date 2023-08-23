@@ -1,24 +1,24 @@
 {
   "ReleaseBranchName": "release/yyyyMMdd",
-  "ProgramGitPath": "C:\\ProgramSource\\GenXls",
-  "PackageBasePath": "C:\\Users\\itdhvh\\Desktop\\Work\\GenXlsWorkplace\\PackageWorkplace",
+  "ProgramGitDirectory": "C:\\ProgramSource\\GenXls",
+  "PackageWorkingDirectory": "C:\\Users\\itdhvh\\Desktop\\Work\\GenXlsWorkplace\\PackageWorkplace",
   "JobIds": [ "xxx", "yyy" ],
   "RepoPreviousMergeHash": "1234abcd",
   "ProgramName": "GenXls",
-  "ProgramCompiledPath": "C:\\ProgramSource\\GenXls\\GenXls\\bin\\Release",
+  "ProgramCompiledDirectory": "C:\\ProgramSource\\GenXls\\GenXls\\bin\\Release",
   "CustomPackageBackUpPaths": [],
-  "ProductionProgramBasePath": "C:\\Users\\itdhvh\\Desktop\\Work\\GenXlsWorkplace\\Production",
+  "ProductionDirectory": "C:\\Users\\itdhvh\\Desktop\\Work\\GenXlsWorkplace\\Production",
   "NugetConfigs": [
     {
-      "NugetGitPath": "C:\\ProgramSource\\AS400.Interfaces",
-      "TargetNugetPath": "C:\\ProgramSource\\GenXls\\packages",
-      "NugetRepoName": "AS400.Interfaces",
+      "NugetGitDirectory": "C:\\ProgramSource\\AS400.Interfaces",
+      "ProgramNugetPackageDirectory": "C:\\ProgramSource\\GenXls\\packages",
+      "NugetPackageName": "AS400.Interfaces",
       "NugetPackageVersion": "v0.00.0"
     },
     {
-      "NugetGitPath": "C:\\ProgramSource\\AS400.Helpers",
-      "TargetNugetPath": "C:\\ProgramSource\\GenXls\\packages",
-      "NugetRepoName": "AS400.Helpers",
+      "NugetGitDirectory": "C:\\ProgramSource\\AS400.Helpers",
+      "ProgramNugetPackageDirectory": "C:\\ProgramSource\\GenXls\\packages",
+      "NugetPackageName": "AS400.Helpers",
       "NugetPackageVersion": "v0.00.0"
     }
   ]

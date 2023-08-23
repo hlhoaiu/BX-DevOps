@@ -30,7 +30,7 @@ namespace DevOps.Models.Config
             if (_deployConfig != null) return _deployConfig;
 
             var deployJSONConfig = GetDeployJSONConfig();
-            var latestHash = _gitHashService.GetHash(CommonConst.Production, deployJSONConfig.ProgramGitPath);
+            var latestHash = _gitHashService.GetHash(CommonConst.Production, deployJSONConfig.ProgramGitDirectory);
             _deployConfig = new DeployConfig(deployJSONConfig, latestHash, initDateTime);
 
             return _deployConfig;
@@ -50,7 +50,7 @@ namespace DevOps.Models.Config
             var isUpdated = _updateJSONConfigService.Update(updatedConfig);
             if (!isUpdated) return false;
             _deployJSONConfig = updatedConfig;
-            var latestHash = _gitHashService.GetHash(CommonConst.Production, _deployJSONConfig.ProgramGitPath);
+            var latestHash = _gitHashService.GetHash(CommonConst.Production, _deployJSONConfig.ProgramGitDirectory);
             _deployConfig = new DeployConfig(updatedConfig, latestHash, initDateTime);
             return true;
         }

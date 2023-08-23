@@ -28,7 +28,7 @@ namespace DevOps.Managers
         {
             _mergedBranch = new List<string>();
             var config = _deployConfigModel.GetDeployConfig();
-            ProposedGitDirectory = config.ProgramGitPath;
+            ProposedGitDirectory = config.ProgramGitDirectory;
             ProposedSourceBranch = CommonConst.Master;
             ProposedTargetBranch = config.ReleaseBranchName;
         }

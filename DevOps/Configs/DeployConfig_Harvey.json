@@ -1,24 +1,24 @@
 {
   "ReleaseBranchName": "release/yyyyMMdd",
-  "ProgramGitPath": "C:\\Users\\HIM HO\\source\\repos\\BX-DevOps",
-  "PackageBasePath": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\PackageWorkplace",
+  "ProgramGitDirectory": "C:\\Users\\HIM HO\\source\\repos\\BX-DevOps",
+  "PackageWorkingDirectory": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\PackageWorkplace",
   "JobIds": [ "xxx", "yyy" ],
   "RepoPreviousMergeHash": "123abc",
   "ProgramName": "GenXls",
-  "ProgramCompiledPath": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\PackageWorkplace\\FakeCompiled_Release",
+  "ProgramCompiledDirectory": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\PackageWorkplace\\FakeCompiled_Release",
   "CustomPackageBackUpPaths": [],
-  "ProductionProgramBasePath": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\Production",
+  "ProductionDirectory": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\Production",
   "NugetConfigs": [
     {
-      "NugetGitPath": "C:\\Users\\HIM HO\\source\\repos\\BX-DevOps",
-      "TargetNugetPath": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\TargetPackagePath",
-      "NugetRepoName": "AS400.Interfaces",
+      "NugetGitDirectory": "C:\\Users\\HIM HO\\source\\repos\\BX-DevOps",
+      "ProgramNugetPackageDirectory": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\TargetPackagePath",
+      "NugetPackageName": "AS400.Interfaces",
       "NugetPackageVersion": "v1.11.1"
     },
     {
-      "NugetGitPath": "C:\\Users\\HIM HO\\source\\repos\\BX-DevOps",
-      "TargetNugetPath": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\TargetPackagePath",
-      "NugetRepoName": "AS400.Helpers",
+      "NugetGitDirectory": "C:\\Users\\HIM HO\\source\\repos\\BX-DevOps",
+      "ProgramNugetPackageDirectory": "C:\\Users\\HIM HO\\Desktop\\GenXlsWorkplace\\TargetPackagePath",
+      "NugetPackageName": "AS400.Helpers",
       "NugetPackageVersion": "v1.99.9"
     }
   ]

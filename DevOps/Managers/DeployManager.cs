@@ -36,22 +36,22 @@ namespace DevOps.Managers
 
         private void ReleasePackage(DeployConfig config) 
         {
-            Directory.CreateDirectory(config.PackageReleasePath);
-            var packagePath = Path.Combine(config.PackageBasePath, $"{config.PackageName}.zip");
-            var releaseDirectories = new string[] { config.PackageReleasePath };
+            Directory.CreateDirectory(config.PackageReleaseDirectory);
+            var packagePath = Path.Combine(config.PackageWorkingDirectory, $"{config.PackageName}.zip");
+            var releaseDirectories = new string[] { config.PackageReleaseDirectory };
             _copyFileService.Copy(packagePath, releaseDirectories);
-            var formPath = Path.Combine(config.PackageBasePath, config.DeploymentFormName);
+            var formPath = Path.Combine(config.PackageWorkingDirectory, config.DeploymentFormName);
             _copyFileService.Copy(formPath, releaseDirectories);
             _openDirectoryService.Open(releaseDirectories);
         }
 
         private void Deploy(DeployConfig config) 
         {
-            var sourceZipPath = Path.Combine(config.PackageCompilePath, "Release.zip");
-            var unZipToPath = Path.Combine(config.PackageCompilePath, "Release");
+            var sourceZipPath = Path.Combine(config.PackageCompiledDirectory, "Release.zip");
+            var unZipToPath = Path.Combine(config.PackageCompiledDirectory, "Release");
             Directory.CreateDirectory(unZipToPath);
             _zipService.UnZip(sourceZipPath, unZipToPath);
-            _winMergeCompareService.Compare(unZipToPath, config.ProductionProgramPath);
+            _winMergeCompareService.Compare(unZipToPath, config.ProductionProgramDirectory);
         }
     }
 }

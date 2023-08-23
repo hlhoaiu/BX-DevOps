@@ -35,10 +35,10 @@ namespace DevOps.Managers
             var config = _deployConfigModel.GetDeployConfig();
             var configDict = _fieldHelpers.ToStrDict(config).ToDictionary(kvp=>$"<{kvp.Key}>", kvp => kvp.Value);
             _fieldHelpers.MergeDict(configDict, fieldsFromUser.ToDictionary(kvp => $"<{kvp.Key}>", kvp => kvp.Value));
-            var formPath = Path.Combine(config.PackageBasePath, config.DeploymentFormName);
+            var formPath = Path.Combine(config.PackageWorkingDirectory, config.DeploymentFormName);
             _replaceWordContentService.Replace(configDict, formPath);
-            _openDirectoryService.Open(config.PackageBasePath);
-            var backupDirectories = config.CustomPackageBackUpPaths;
+            _openDirectoryService.Open(config.PackageWorkingDirectory);
+            var backupDirectories = config.CustomPackageBackUpDirectories;
             _copyFileService.Copy(formPath, backupDirectories);
             _openDirectoryService.Open(backupDirectories);
         }

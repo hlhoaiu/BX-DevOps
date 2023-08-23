@@ -23,8 +23,8 @@ namespace DevOps.Managers
         public void Backup()
         {
             var config = _deployConfigModel.GetDeployConfig();
-            var sourceFolder = config.ProductionProgramPath;
-            var zipPath = config.ProductionBackUpFullPath;
+            var sourceFolder = config.ProductionProgramDirectory;
+            var zipPath = config.ProductionBackUpZipPath;
             _zipService.Zip(sourceFolder, zipPath);
             var zipDirectory = Path.GetDirectoryName(zipPath);
             _openDirectoryService.Open(zipDirectory);

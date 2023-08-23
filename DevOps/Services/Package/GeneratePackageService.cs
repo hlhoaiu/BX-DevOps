@@ -39,34 +39,34 @@ namespace DevOps.Services.System
             var config = _deployConfigModel.GetDeployConfig();
             CreateFolder(config);
             ZipSourceFolder(config);
-            GenerateWinMergeReport(config.RepoPreviousMergeHash, config.ProgramGitPath, config.PackageDiffPath);
+            GenerateWinMergeReport(config.RepoPreviousMergeHash, config.ProgramGitDirectory, config.PackageDiffDirectory);
             CompileProgram();
-            ZipCompiledProgram(config.ProgramCompiledPath, config.PackageCompilePath);
-            ZipWholePackage(config.PackageBasePath, config.PackageName);
+            ZipCompiledProgram(config.ProgramCompiledDirectory, config.PackageCompiledDirectory);
+            ZipWholePackage(config.PackageWorkingDirectory, config.PackageName);
         }
 
         private void CreateFolder(DeployConfig config) 
         {
             _logger.Log("Start to prepare package folders");
-            Directory.CreateDirectory(config.PackageCompilePath);
-            Directory.CreateDirectory(config.PackageDiffPath);
-            Directory.CreateDirectory(Path.GetDirectoryName(config.PackageSourceZipFullPath));
+            Directory.CreateDirectory(config.PackageCompiledDirectory);
+            Directory.CreateDirectory(config.PackageDiffDirectory);
+            Directory.CreateDirectory(Path.GetDirectoryName(config.PackageSourceZipPath));
         }
 
         private void ZipSourceFolder(DeployConfig config) 
         {
             _logger.Log($"Start to zip source folder into package.");
-            var fileFullPath = config.PackageSourceZipFullPath;
+            var fileFullPath = config.PackageSourceZipPath;
             var gitHead = CommonConst.Production;
-            var gitDirectory = config.ProgramGitPath;
+            var gitDirectory = config.ProgramGitDirectory;
             _gitZipService.Zip(fileFullPath, gitHead, gitDirectory);
 
             foreach (var nugetConfig in config.NugetConfigs)
             {
                 if (nugetConfig.IsEmpty) continue;
-                fileFullPath = nugetConfig.PackageSourceNugetZipFullPath;
+                fileFullPath = nugetConfig.PackageSourceNugetZipPath;
                 gitHead = CommonConst.Master;
-                gitDirectory = nugetConfig.NugetGitPath;
+                gitDirectory = nugetConfig.NugetGitDirectory;
                 _gitZipService.Zip(fileFullPath, gitHead, gitDirectory);
             }
         }

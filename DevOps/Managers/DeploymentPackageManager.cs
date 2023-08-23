@@ -26,13 +26,13 @@ namespace DevOps.Managers
         public void Generate()
         {
             var config = _deployConfigModel.GetDeployConfig();
-            var packagePath = Path.Combine(config.PackageBasePath, $"{config.PackageName}.zip");
+            var packagePath = Path.Combine(config.PackageWorkingDirectory, $"{config.PackageName}.zip");
             if (!File.Exists(packagePath)) 
             {
                 _generatePackageService.Generate();
-                _openDirectoryService.Open(config.PackageBasePath);
+                _openDirectoryService.Open(config.PackageWorkingDirectory);
             }
-            var backupDirectories = config.CustomPackageBackUpPaths;
+            var backupDirectories = config.CustomPackageBackUpDirectories;
             _copyFileService.Copy(packagePath, backupDirectories);
             _openDirectoryService.Open(backupDirectories);
         }
