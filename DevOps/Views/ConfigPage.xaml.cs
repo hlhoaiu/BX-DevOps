@@ -31,7 +31,7 @@ namespace DevOps.Views
     public partial class ConfigPage : Page, IConfigPage
     {
         private readonly IConfigManager _configManager;
-        private readonly IFieldHelpers _fieldHelpers;
+        private readonly IFieldConverter _fieldHelpers;
 
         public Action<string> OnBackPage { get; set; }
         public Action<string> OnNextPage { get; set; }
@@ -41,7 +41,7 @@ namespace DevOps.Views
 
         public ConfigPage(
             IConfigManager configManager, 
-            IFieldHelpers fieldHelpers)
+            IFieldConverter fieldHelpers)
         {
             _configManager = configManager;
             _fieldHelpers = fieldHelpers;
@@ -89,8 +89,8 @@ namespace DevOps.Views
         private void OnTextChanged(object sender, TextChangedEventArgs e) 
         {
             var tempJSONConfig = UpdateTempJSONConfig();
-            var latestHash = _configManager.GetDeployConfig().RepoLatestHash;
-            _tempDeployConfig = new DeployConfig(tempJSONConfig, latestHash);
+            var config = _configManager.GetDeployConfig();
+            _tempDeployConfig = new DeployConfig(tempJSONConfig, config.RepoLatestHash, config.CurrentDateTime);
             AddOrUpdateFields();
         }
 

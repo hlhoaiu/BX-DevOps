@@ -19,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using static DevOps.Views.ConfigPage;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -55,7 +56,26 @@ namespace DevOps.Views
             _logger = logger;
 
             InitializeComponent();
+            InitExceptionHandling();
             Init();
+        }
+
+        private void InitExceptionHandling() 
+        {
+            AppDomain currentDomain = AppDomain.CurrentDomain;
+            currentDomain.UnhandledException += new UnhandledExceptionEventHandler(ExceptionHandler);
+        }
+
+        private void ExceptionHandler(object sender, UnhandledExceptionEventArgs args) 
+        {
+            var e = (Exception)args.ExceptionObject;
+            _logger.Error(e.Message + Environment.NewLine + e.StackTrace);
+            _logger.Error($"Runtime terminating: {args.IsTerminating}");
+            MessageBox.Show(
+                e.Message + Environment.NewLine + "Details in log folder: " + PathProvider.LogDirectory, 
+                "Exception",
+                MessageBoxButton.OK, 
+                MessageBoxImage.Error);
         }
 
         private void Init() 

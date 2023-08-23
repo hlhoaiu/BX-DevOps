@@ -55,13 +55,13 @@ namespace DevOps.Services.Form
             }
         }
 
-        private void FindAndInsert(Document doc, object findText, string replaceWithText)
+        private void FindAndInsert(Document doc, string findText, string replaceWithText)
         {
             Microsoft.Office.Interop.Word.Range range = doc.Content;
             range.Find.Execute(findText);
             // Define new range 
             //range = doc.Range(range.End + 1, range.End + 1);
-            if (range.Text != null) 
+            if (range.Text != null && range.Text == findText) 
             {
                 range.Text = replaceWithText;
             }

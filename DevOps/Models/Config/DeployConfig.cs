@@ -30,9 +30,9 @@ namespace DevOps.Models.Config
         public string DeploymentFormName { get; } // <ProgramName>.<RepoLatestHash>.docx
         public IEnumerable<NugetConfig> NugetConfigs { get; set; } = Enumerable.Empty<NugetConfig>();
 
-        public DeployConfig(DeployJSONConfig deployConfig, string repoLatestHash) 
+        public DeployConfig(DeployJSONConfig deployConfig, string repoLatestHash, DateTime initDateTime) 
         {
-            CurrentDateTime = DateTime.Now;
+            CurrentDateTime = initDateTime;
             ReleaseBranchName = deployConfig.ReleaseBranchName;
             ProgramGitPath = deployConfig.ProgramGitPath;
             PackageBasePath = deployConfig.PackageBasePath;
@@ -50,7 +50,7 @@ namespace DevOps.Models.Config
             PackageReleasePath = Path.Combine(ProductionProgramBasePath, "Release", ProgramName, CurrentDateTime.ToString(CommonConst.DateFormat));
             ProductionProgramPath = Path.Combine(ProductionProgramBasePath, "Apps", ProgramName.ToUpper());
             ProductionBackUpBasePath = Path.Combine(ProductionProgramBasePath, "Migration", ProgramName);
-            ProductionBackUpFullPath = Path.Combine(ProductionBackUpBasePath, $"{ProgramName}.{CurrentDateTime.ToString(CommonConst.DateTimeFormat)}.zip");
+            ProductionBackUpFullPath = Path.Combine(ProductionBackUpBasePath, $"{ProgramName.ToUpper()}.{CurrentDateTime.ToString(CommonConst.DateTimeFormat)}.zip");
             DiffHTMLName = $"{ProgramName},{RepoPreviousMergeHash}_{RepoLatestHash}";
             DeploymentFormName = $"{ProgramName}.{RepoLatestHash}.docx";
             NugetConfigs = deployConfig.NugetConfigs.Select(x => new NugetConfig(x, Path.Combine(PackageBasePath, PackageName, "source", $"{x.NugetRepoName}.{x.NugetPackageVersion}.zip")));

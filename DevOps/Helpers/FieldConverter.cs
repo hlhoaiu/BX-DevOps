@@ -7,11 +7,11 @@ using System.Linq;
 
 namespace DevOps.Helpers
 {
-    public class FieldHelpers : IFieldHelpers
+    public class FieldConverter : IFieldConverter
     {
         private readonly ILogger _logger;
 
-        public FieldHelpers(
+        public FieldConverter(
             ILogger logger)
         {
             _logger = logger;

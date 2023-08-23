@@ -19,7 +19,7 @@ namespace DevOps.Modules
         {
             builder.RegisterType<MLogger>().As<ILogger>().InstancePerLifetimeScope();
             builder.RegisterType<CommandLineRunner>().As<ICommandLineRunner>().InstancePerLifetimeScope();
-            builder.RegisterType<FieldHelpers>().As<IFieldHelpers>().InstancePerLifetimeScope();
+            builder.RegisterType<FieldConverter>().As<IFieldConverter>().InstancePerLifetimeScope();
 
             builder.RegisterType<JSONSerializer>().As<ISerializer>().InstancePerLifetimeScope();
             builder.RegisterType<RetrieveJSONConfigService>().As<IRetrieveJSONConfigService>().InstancePerLifetimeScope();
@@ -47,7 +47,8 @@ namespace DevOps.Modules
             builder.RegisterType<MoveFileService>().As<IMoveFileService>().InstancePerLifetimeScope();
             builder.RegisterType<CopyFileService>().As<ICopyFileService>().InstancePerLifetimeScope();
             builder.RegisterType<OpenDirectoryService>().As<IOpenDirectoryService>().InstancePerLifetimeScope();
-            builder.RegisterType<ZipService>().As<IZipService>().InstancePerLifetimeScope();
+            builder.RegisterType<ZipService>().As<IZipService>().InstancePerLifetimeScope(); 
+            builder.RegisterType<CheckPathService>().As<ICheckPathService>().InstancePerLifetimeScope(); 
 
             //WinMerge
             builder.RegisterType<WinMergeReportService>().As<IWinMergeReportService>().InstancePerLifetimeScope();

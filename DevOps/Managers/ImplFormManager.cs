@@ -13,14 +13,14 @@ namespace DevOps.Managers
         private readonly IReplaceWordContentService _replaceWordContentService;
         private readonly IDeployConfigModel _deployConfigModel;
         private readonly ICopyFileService _copyFileService;
-        private readonly IFieldHelpers _fieldHelpers;
+        private readonly IFieldConverter _fieldHelpers;
         private readonly IOpenDirectoryService _openDirectoryService;
 
         public ImplFormManager(
             IReplaceWordContentService replaceWordContentService,
             IDeployConfigModel deployConfigModel,
             ICopyFileService copyPackageService,
-            IFieldHelpers fieldHelpers,
+            IFieldConverter fieldHelpers,
             IOpenDirectoryService openDirectoryService)
         {
             _replaceWordContentService = replaceWordContentService;
@@ -37,7 +37,7 @@ namespace DevOps.Managers
             _fieldHelpers.MergeDict(configDict, fieldsFromUser.ToDictionary(kvp => $"<{kvp.Key}>", kvp => kvp.Value));
             var formPath = Path.Combine(config.PackageBasePath, config.DeploymentFormName);
             _replaceWordContentService.Replace(configDict, formPath);
-            _openDirectoryService.Open(formPath);
+            _openDirectoryService.Open(config.PackageBasePath);
             var backupDirectories = config.CustomPackageBackUpPaths;
             _copyFileService.Copy(formPath, backupDirectories);
             _openDirectoryService.Open(backupDirectories);

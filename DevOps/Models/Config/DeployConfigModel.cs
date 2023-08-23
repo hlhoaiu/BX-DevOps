@@ -1,6 +1,7 @@
 ﻿using DevOps.Helpers;
 using DevOps.Services.Config;
 using DevOps.Services.Git;
+using System;
 
 namespace DevOps.Models.Config
 {
@@ -12,6 +13,7 @@ namespace DevOps.Models.Config
 
         private DeployConfig _deployConfig;
         private DeployJSONConfig _deployJSONConfig;
+        private DateTime initDateTime = DateTime.Now;
 
         public DeployConfigModel(
             IRetrieveJSONConfigService retrieveJSONConfigService,
@@ -29,7 +31,7 @@ namespace DevOps.Models.Config
 
             var deployJSONConfig = GetDeployJSONConfig();
             var latestHash = _gitHashService.GetHash(CommonConst.Production, deployJSONConfig.ProgramGitPath);
-            _deployConfig = new DeployConfig(deployJSONConfig, latestHash);
+            _deployConfig = new DeployConfig(deployJSONConfig, latestHash, initDateTime);
 
             return _deployConfig;
         }
@@ -49,7 +51,7 @@ namespace DevOps.Models.Config
             if (!isUpdated) return false;
             _deployJSONConfig = updatedConfig;
             var latestHash = _gitHashService.GetHash(CommonConst.Production, _deployJSONConfig.ProgramGitPath);
-            _deployConfig = new DeployConfig(updatedConfig, latestHash);
+            _deployConfig = new DeployConfig(updatedConfig, latestHash, initDateTime);
             return true;
         }
 

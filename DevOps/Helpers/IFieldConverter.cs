@@ -2,7 +2,7 @@
 
 namespace DevOps.Helpers
 {
-    public interface IFieldHelpers
+    public interface IFieldConverter
     {
         void MergeDict(IDictionary<string, string> baseDict, IDictionary<string, string> mergeDict);
         IDictionary<string, object?> ToDict(object config);
