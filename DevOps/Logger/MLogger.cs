@@ -14,7 +14,7 @@ namespace DevOps.Logger
 
         public void Log(string msg)
         {
-            msg = $"[LOG][{DateTime.Now}] {msg}";
+            msg = $"[{DateTime.Now}][LOG] {msg}";
             Console.WriteLine(msg);
             WriteLog(msg);
             CombinedLogs += msg + "\n";
@@ -26,7 +26,7 @@ namespace DevOps.Logger
 
         public void Error(string msg) 
         {
-            msg = $"[ERROR][{DateTime.Now}] {msg}";
+            msg = $"[{DateTime.Now}][ERROR] {msg}";
             Console.WriteLine(msg);
             WriteLog(msg);
             CombinedLogs += msg + "\n";

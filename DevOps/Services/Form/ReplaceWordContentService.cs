@@ -31,14 +31,6 @@ namespace DevOps.Services.Form
                 foreach (var item in replaceDict)
                 {
                     FindAndInsert(wordDoc, item.Key, item.Value);
-                    //if (item.Value.Length > 200) 
-                    //{
-                    //    FindAndInsert(wordDoc, item.Key, item.Value);
-                    //} 
-                    //else 
-                    //{
-                    //    FindAndReplace(wordApp, item.Key, item.Value);
-                    //}
                 }
                 wordDoc.SaveAs(saveAsPath);
                 _logger.Log($"All strings were replaced in Word Document. File saved to: {saveAsPath}");
@@ -67,6 +59,7 @@ namespace DevOps.Services.Form
             }
         }
 
+        // the string to replace cannot too long
         private void FindAndReplace(Application doc, object findText, object replaceWithText)
         {
             //options
